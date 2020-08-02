@@ -6,6 +6,7 @@
     "test": "jest --passWithNoTests",
     "build": "next build",
     "start": "next start",
+    "export": "next export",
     "type-check": "tsc"
   },
   "dependencies": {

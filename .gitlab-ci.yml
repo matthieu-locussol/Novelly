@@ -26,6 +26,7 @@ build:
   stage: build
   script:
     - yarn build
+    - yarn export
   artifacts:
     paths:
       - out
