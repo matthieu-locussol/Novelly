@@ -26,11 +26,16 @@ build:
   stage: build
   script:
     - yarn build
+  artifacts:
+    paths:
+      - dist
 
 deploy:
   stage: deploy
   script:
     - yarn global add netlify-cli
     - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+  dependencies:
+    - build
   only:
     - master
