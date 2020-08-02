@@ -1,0 +1,35 @@
+image: node:12.1.0
+
+cache:
+  untracked: true
+  paths:
+    - node_modules/
+
+stages:
+  - setup
+  - tests
+  - build
+  - deploy
+
+setup:
+  stage: setup
+  script:
+    - yarn install --frozen-lockfile
+
+tests:
+  stage: tests
+  script:
+    - yarn test
+
+build:
+  stage: build
+  script:
+    - yarn build
+
+deploy:
+  stage: deploy
+  script:
+    - yarn global add netlify-cli
+    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+  only:
+    - master
