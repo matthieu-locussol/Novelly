@@ -19,6 +19,7 @@ setup:
 tests:
   stage: tests
   script:
+    - yarn global add jest
     - yarn test
 
 build:
