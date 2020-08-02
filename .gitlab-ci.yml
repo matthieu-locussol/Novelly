@@ -28,7 +28,7 @@ build:
     - yarn build
   artifacts:
     paths:
-      - dist
+      - out
 
 deploy:
   stage: deploy
