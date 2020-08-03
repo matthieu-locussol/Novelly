@@ -1,42 +1,42 @@
 image: node:12.1.0
 
 cache:
-  untracked: true
-  paths:
-    - node_modules/
+   untracked: true
+   paths:
+      - node_modules/
 
 stages:
-  - setup
-  - tests
-  - build
-  - deploy
+   - setup
+   - tests
+   - build
+   - deploy
 
 setup:
-  stage: setup
-  script:
-    - yarn install --frozen-lockfile
+   stage: setup
+   script:
+      - yarn install --frozen-lockfile
 
 tests:
-  stage: tests
-  script:
-    - yarn global add jest
-    - yarn test
+   stage: tests
+   script:
+      - yarn global add jest
+      - yarn test
 
 build:
-  stage: build
-  script:
-    - yarn build
-    - yarn export
-  artifacts:
-    paths:
-      - out
+   stage: build
+   script:
+      - yarn build
+      - yarn export
+   artifacts:
+      paths:
+         - out
 
 deploy:
-  stage: deploy
-  script:
-    - yarn global add netlify-cli
-    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
-  dependencies:
-    - build
-  only:
-    - master
+   stage: deploy
+   script:
+      - yarn global add netlify-cli
+      - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+   dependencies:
+      - build
+   only:
+      - master

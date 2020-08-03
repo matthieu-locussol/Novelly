@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+html,
+body {
+	color: $text-primary;
+	background-color: $white;
+	padding: 0;
+	margin: 0;
+}
+
+* {
+	box-sizing: border-box;
+	font-family: Roboto, "Open Sans", sans-serif;
+}
+
+.mobile {
+	display: none;
+	@media (max-width: $breakpoint-sm) {
+		display: flex;
+	}
+}
+
+.desktop {
+	display: flex;
+	@media (max-width: $breakpoint-sm) {
+		display: none;
+	}
+}
