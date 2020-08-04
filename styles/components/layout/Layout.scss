@@ -2,10 +2,10 @@
 
 .layout {
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	flex: 0 1 auto;
 	flex-direction: column;
-	min-width: 1200px;
-	max-width: 1200px;
+	min-width: 800px;
+	max-width: 800px;
 	margin: auto;
+	padding: $spacer-xxl;
 }

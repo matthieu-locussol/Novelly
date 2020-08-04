@@ -1,0 +1,22 @@
+header {
+	margin-right: auto;
+	nav {
+		& > *:not(:last-child) {
+			margin-right: $spacer-xl;
+		}
+		a {
+			color: $blue;
+			text-decoration: none;
+			font-size: 20px;
+			font-weight: 600;
+			&:hover {
+				color: lighten($color: $blue, $amount: 10%);
+				border-bottom: 2px solid lighten($blue, 10%);
+			}
+			&.active {
+				color: $green;
+				border-bottom: 2px solid $green;
+			}
+		}
+	}
+}

@@ -5,7 +5,13 @@ const Header = () => (
    <header>
       <nav>
          <Link href="/">
-            <a>Home</a>
+            <a className="active">Dashboard</a>
+         </Link>
+         <Link href="/">
+            <a>Stories</a>
+         </Link>
+         <Link href="/">
+            <a>Featured</a>
          </Link>
       </nav>
    </header>
