@@ -32,6 +32,7 @@ build:
          - out
 
 deploy:
+   resource_group: deploy
    stage: deploy
    script:
       - yarn global add netlify-cli
