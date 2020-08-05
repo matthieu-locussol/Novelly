@@ -1,0 +1,25 @@
+@import "../global.scss";
+
+.book-preview {
+	display: flex;
+	min-width: 360px;
+	.MuiPaper-root {
+		padding: 0 $spacer-md;
+		border: 1px solid lighten($gray, 40%);
+		transition: border-color $transition-speed-fast;
+		h2 {
+			font-weight: 600;
+			transition: color $transition-speed-fast;
+		}
+		p {
+			font-size: 14px;
+		}
+		&:hover {
+			cursor: pointer;
+			border-color: $green;
+			h2 {
+				color: $green;
+			}
+		}
+	}
+}

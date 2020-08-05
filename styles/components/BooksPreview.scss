@@ -1,0 +1,10 @@
+@import "../global.scss";
+
+.books-preview {
+	display: flex;
+	flex-flow: row;
+	margin: $spacer-md 0;
+	& > *:not(:last-child) {
+		margin-right: $spacer-xl;
+	}
+}

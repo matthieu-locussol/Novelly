@@ -1,8 +1,27 @@
+@import "../../global.scss";
+
 header {
 	margin-right: auto;
 	nav {
 		& > *:not(:last-child) {
 			margin-right: $spacer-xl;
+		}
+		.button {
+			font-size: 16px;
+			font-weight: 600;
+			margin-bottom: 2px;
+		}
+		.active-button {
+			font-size: 16px;
+			font-weight: 600;
+			padding-left: 0px;
+			padding-right: 0px;
+			border-bottom: 2px solid $green;
+			border-bottom-left-radius: 0px;
+			border-bottom-right-radius: 0px;
+			&.Mui-disabled {
+				color: $blue;
+			}
 		}
 	}
 }
