@@ -2,7 +2,7 @@
 
 .book-preview {
 	display: flex;
-	min-width: 360px;
+	max-width: 360px;
 	.MuiPaper-root {
 		padding: 0 $spacer-md;
 		border: 1px solid lighten($gray, 40%);

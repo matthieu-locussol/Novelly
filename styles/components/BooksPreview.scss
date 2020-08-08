@@ -2,9 +2,12 @@
 
 .books-preview {
 	display: flex;
-	flex-flow: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
 	margin: $spacer-md 0;
-	& > *:not(:last-child) {
-		margin-right: $spacer-xl;
+	margin-top: -0.5 * $spacer-md;
+	& > .book-preview {
+		margin-top: 1.5 * $spacer-md;
 	}
 }
