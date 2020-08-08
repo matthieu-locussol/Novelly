@@ -1,5 +1,4 @@
 import Layout from '@components/layout/Layout';
-import Button from '@components/common/Button';
 import Welcome from '@components/Welcome';
 import BooksPreview from '@components/BooksPreview';
 
