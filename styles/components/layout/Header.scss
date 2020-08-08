@@ -1,7 +1,14 @@
 @import "../../global.scss";
 
 header {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	margin-right: auto;
+	margin-bottom: $spacer-md;
+	.logo {
+		margin-right: $spacer-xl;
+	}
 	nav {
 		& > *:not(:last-child) {
 			margin-right: $spacer-xl;
@@ -20,7 +27,7 @@ header {
 			border-bottom-left-radius: 0px;
 			border-bottom-right-radius: 0px;
 			&.Mui-disabled {
-				color: $blue;
+				color: $green;
 			}
 		}
 	}
