@@ -1,34 +1,42 @@
-@import "../../global.scss";
+@import '../../global.scss';
 
 header {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-right: auto;
-	margin-bottom: $spacer-md;
-	.logo {
-		margin-right: $spacer-xl;
-	}
-	nav {
-		& > *:not(:last-child) {
-			margin-right: $spacer-xl;
-		}
-		.button {
-			font-size: 16px;
-			font-weight: 600;
-			margin-bottom: 2px;
-		}
-		.active-button {
-			font-size: 16px;
-			font-weight: 600;
-			padding-left: 0px;
-			padding-right: 0px;
-			border-bottom: 2px solid $green;
-			border-bottom-left-radius: 0px;
-			border-bottom-right-radius: 0px;
-			&.Mui-disabled {
-				color: $green;
-			}
-		}
-	}
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: $spacer-md;
+   .header-left,
+   .header-right {
+      display: flex;
+   }
+   .header-right {
+      & > *:not(:last-child) {
+         margin-right: $spacer-xs;
+      }
+   }
+   .logo {
+      margin-right: $spacer-xl;
+   }
+   nav {
+      & > *:not(:last-child) {
+         margin-right: $spacer-xl;
+      }
+      .button {
+         font-size: 16px;
+         font-weight: 600;
+         margin-bottom: 2px;
+      }
+      .active-button {
+         font-size: 16px;
+         font-weight: 600;
+         padding-left: 0px;
+         padding-right: 0px;
+         border-bottom: 2px solid $green;
+         border-bottom-left-radius: 0px;
+         border-bottom-right-radius: 0px;
+         &.Mui-disabled {
+            color: $green;
+         }
+      }
+   }
 }
