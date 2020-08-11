@@ -1,2 +1,2 @@
-export { default as Default } from './default';
-export { default as Dark } from './dark';
+export { default as Default } from '@themes/default';
+export { default as Dark } from '@themes/dark';

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { AppProps } from 'next/app';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { ThemeProvider } from '../contexts/ThemeProvider';
+import { ThemeProvider } from '@contexts/ThemeProvider';
 
 import '@styles/main.scss';
 

@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { Default, Dark } from '../themes';
+import { Default, Dark } from '@themes/index';
 
 interface ThemeContextInterface {
    theme: 'light' | 'dark';
