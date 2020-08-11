@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import IconButton from '@material-ui/core/IconButton';
 
 import DarkIcon from '@material-ui/icons/Brightness4';
 import LightIcon from '@material-ui/icons/Brightness7';
 
-const ThemePicker = () => {
-   const [theme, setTheme] = useState('light');
+import { useTheme } from '../contexts/ThemeProvider';
 
-   const toggleTheme = () => {
-      setTheme(theme === 'dark' ? 'light' : 'dark');
-   };
+const ThemePicker = () => {
+   const { theme, setTheme } = useTheme();
+
+   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
    return (
       <div className="theme-picker">
