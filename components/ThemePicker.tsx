@@ -8,14 +8,18 @@ import LightIcon from '@material-ui/icons/Brightness7';
 import { useTheme } from '@contexts/ThemeProvider';
 
 const ThemePicker = () => {
-   const { theme, setTheme } = useTheme();
+   const { theme, muiTheme, setTheme } = useTheme();
 
    const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
    return (
       <div className="theme-picker">
          <IconButton onClick={() => toggleTheme()}>
-            {theme === 'dark' ? <LightIcon /> : <DarkIcon />}
+            {theme === 'dark' ? (
+               <LightIcon style={{ color: muiTheme.palette.text.primary }} />
+            ) : (
+               <DarkIcon style={{ color: muiTheme.palette.text.primary }} />
+            )}
          </IconButton>
       </div>
    );

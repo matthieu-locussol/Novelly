@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import TranslateIcon from '@material-ui/icons/Translate';
 
 import { useLang } from '@contexts/LangProvider';
+import { useTheme } from '@contexts/ThemeProvider';
 
 const LANGUAGES: Record<string, string> = {
    en: 'English',
@@ -21,6 +22,7 @@ const LANGUAGES: Record<string, string> = {
 
 const LangPicker = () => {
    const { setLang } = useLang();
+   const { muiTheme } = useTheme();
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +41,7 @@ const LangPicker = () => {
    return (
       <div className="lang-picker">
          <IconButton aria-controls="lang-picker-menu" aria-haspopup="true" onClick={handleClick}>
-            <TranslateIcon />
+            <TranslateIcon style={{ color: muiTheme.palette.text.primary }} />
          </IconButton>
          <Menu
             id="lang-picker-menu"
