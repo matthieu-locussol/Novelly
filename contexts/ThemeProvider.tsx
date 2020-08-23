@@ -3,8 +3,10 @@ import React, { createContext, useState, useContext } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Default, Dark } from '@themes/index';
 
+type ThemeType = 'light' | 'dark';
+
 interface ThemeContextInterface {
-   theme: 'light' | 'dark';
+   theme: ThemeType;
    setTheme: Function;
 }
 
@@ -20,7 +22,7 @@ export const ThemeContext = createContext<ThemeContextInterface>({
 export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeProvider = ({ children }: ThemeProviderInterface) => {
-   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+   const [theme, setTheme] = useState<ThemeType>('light');
    const muiTheme = theme === 'dark' ? Dark : Default;
 
    const state: ThemeContextInterface = {

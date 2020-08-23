@@ -22,6 +22,7 @@
          "@styles/*": ["styles/*"],
          "@themes/*": ["themes/*"],
          "@contexts/*": ["contexts/*"],
+         "@locales/*": ["locales/*"],
          "@components/*": ["components/*"]
       }
    },

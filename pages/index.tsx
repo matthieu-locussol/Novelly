@@ -2,15 +2,21 @@ import Layout from '@components/layout/Layout';
 import Welcome from '@components/Welcome';
 import BooksPreview from '@components/BooksPreview';
 
+import { useLang } from '@contexts/LangProvider';
+import { useText } from '@contexts/TextProvider';
 import { useTheme } from '@contexts/ThemeProvider';
 
 const IndexPage = () => {
+   const { lang } = useLang();
+   const { texts } = useText();
    const { theme } = useTheme();
 
    return (
       <Layout>
          <Welcome>
-            <h1>Hey, Matthieu. (theme: {theme})</h1>
+            <h1>
+               {texts.hello}, Matthieu. (theme: {theme}) (lang: {lang})
+            </h1>
             <p>It looks like you've already started writing a story, keep up the good work.</p>
          </Welcome>
          <BooksPreview

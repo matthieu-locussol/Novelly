@@ -6,6 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 
 import TranslateIcon from '@material-ui/icons/Translate';
 
+import { useLang } from '@contexts/LangProvider';
+
 const LANGUAGES: Record<string, string> = {
    en: 'English',
    zh: '中文',
@@ -18,6 +20,7 @@ const LANGUAGES: Record<string, string> = {
 };
 
 const LangPicker = () => {
+   const { setLang } = useLang();
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -29,7 +32,7 @@ const LangPicker = () => {
    };
 
    const chooseLang = (lang: string) => {
-      console.log(lang);
+      setLang(lang);
       handleClose();
    };
 
