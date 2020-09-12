@@ -1,9 +1,10 @@
 image: node:12.1.0
 
 cache:
-   untracked: true
+   key: ${CI_COMMIT_REF_SLUG}
    paths:
       - node_modules/
+      - .next/cache/
 
 stages:
    - setup

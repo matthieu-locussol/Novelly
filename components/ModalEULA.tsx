@@ -7,6 +7,9 @@ import {
    DialogContentText,
    DialogTitle,
 } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import { useTheme } from '@contexts/ThemeProvider';
 
 interface ModalEULAProps {
    open: boolean;
@@ -14,7 +17,9 @@ interface ModalEULAProps {
 }
 
 const ModalEULA = ({ open, setOpen }: ModalEULAProps) => {
+   const { muiTheme } = useTheme();
    const descriptionElementRef = useRef<HTMLElement>(null);
+   const fullScreen = useMediaQuery(muiTheme.breakpoints.down('sm'));
 
    const handleClose = () => {
       setOpen(false);
@@ -34,6 +39,7 @@ const ModalEULA = ({ open, setOpen }: ModalEULAProps) => {
          open={open}
          onClose={handleClose}
          scroll="paper"
+         fullScreen={fullScreen}
          aria-labelledby="scroll-dialog-title"
          aria-describedby="scroll-dialog-description">
          <DialogTitle id="scroll-dialog-title">End-User Licence Agreement</DialogTitle>
