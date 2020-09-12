@@ -4,11 +4,8 @@ import { Box, Container, Typography } from '@material-ui/core';
 import Layout from '@components/Layout';
 import LoginForm from '@components/LoginForm';
 import NotRegistered from '@components/NotRegistered';
-import { useText } from '@contexts/TextProvider';
 
 const Index = () => {
-   const { texts } = useText();
-
    return (
       <Layout>
          <Container maxWidth="md">

@@ -8,15 +8,12 @@ import {
    DialogTitle,
 } from '@material-ui/core';
 
-import { useText } from '@contexts/TextProvider';
-
 interface ModalEULAProps {
    open: boolean;
    setOpen: any;
 }
 
 const ModalEULA = ({ open, setOpen }: ModalEULAProps) => {
-   const { texts } = useText();
    const descriptionElementRef = useRef<HTMLElement>(null);
 
    const handleClose = () => {

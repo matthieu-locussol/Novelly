@@ -1,15 +1,11 @@
 import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
-import Header from '@components/Header';
-import { useText } from '@contexts/TextProvider';
+import Layout from '@components/Layout';
 
 const Index = () => {
-   const { texts } = useText();
-
    return (
-      <>
-         <Header />
+      <Layout>
          <Container maxWidth="md">
             <Box my={4}>
                <Typography variant="h4" component="h1" gutterBottom>
@@ -17,7 +13,7 @@ const Index = () => {
                </Typography>
             </Box>
          </Container>
-      </>
+      </Layout>
    );
 };
 

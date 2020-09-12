@@ -1,11 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { AppBar, Button, Divider, Toolbar, IconButton } from '@material-ui/core';
+import { AppBar, Divider, Toolbar, IconButton } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import Logo from '@components/Logo';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
 

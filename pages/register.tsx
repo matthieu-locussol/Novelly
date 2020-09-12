@@ -1,17 +1,13 @@
 import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
-import Header from '@components/Header';
+import Layout from '@components/Layout';
 import RegisterForm from '@components/RegisterForm';
 import AlreadyRegistered from '@components/AlreadyRegistered';
-import { useText } from '@contexts/TextProvider';
 
 const Index = () => {
-   const { texts } = useText();
-
    return (
-      <>
-         <Header />
+      <Layout>
          <Container maxWidth="md">
             <Box my={4}>
                <Typography align="center" variant="h4" component="h1" gutterBottom>
@@ -24,7 +20,7 @@ const Index = () => {
             <RegisterForm />
             <AlreadyRegistered />
          </Container>
-      </>
+      </Layout>
    );
 };
 
