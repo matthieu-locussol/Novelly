@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Theme as MuiTheme } from '@material-ui/core/styles';
@@ -38,6 +38,11 @@ export const ThemeProvider = ({ children }: ThemeProviderInterface) => {
       muiTheme,
       setTheme: selectTheme,
    };
+
+   useEffect(() => {
+      const userTheme = window.localStorage.getItem('theme') as ThemeType;
+      selectTheme(userTheme);
+   }, []);
 
    return (
       <ThemeContext.Provider value={state}>

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 type LangType = 'en' | 'zh' | 'ru' | 'pt' | 'es' | 'fr' | 'de' | 'ja';
 
@@ -20,6 +20,11 @@ export const useLang = () => useContext(LangContext);
 
 export const LangProvider = ({ children }: LangProviderInterface) => {
    const [lang, setLang] = useState<LangType>('en');
+
+   useEffect(() => {
+      const userLang = window.localStorage.getItem('lang') as LangType;
+      setLang(userLang);
+   }, []);
 
    const state: LangContextInterface = {
       lang,

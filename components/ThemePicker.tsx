@@ -18,7 +18,12 @@ const ThemePicker = () => {
    const classes = useStyles();
    const { theme, setTheme } = useTheme();
 
-   const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+   const toggleTheme = () => {
+      const newTheme = theme === 'dark' ? 'light' : 'dark';
+
+      window.localStorage.setItem('theme', newTheme);
+      setTheme(newTheme);
+   };
 
    return (
       <IconButton className={classes.button} aria-label="theme" onClick={() => toggleTheme()}>

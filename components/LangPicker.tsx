@@ -41,6 +41,7 @@ const LangPicker = () => {
    };
 
    const chooseLang = (lang: string) => {
+      window.localStorage.setItem('lang', lang);
       setLang(lang);
       handleClose();
    };
