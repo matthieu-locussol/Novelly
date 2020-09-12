@@ -2,6 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const Dark = createMuiTheme({
    palette: {
+      type: 'dark',
       primary: {
          main: '#34b580',
          contrastText: '#ffffff',
@@ -13,8 +14,8 @@ const Dark = createMuiTheme({
          default: '#36393f',
       },
       text: {
-         primary: '#1e2d43',
-         secondary: '#727377',
+         primary: '#ffffff',
+         secondary: '#A2A3A7',
       },
    },
 });

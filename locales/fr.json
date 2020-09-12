@@ -1,3 +1,8 @@
 {
+   "menu": {
+      "dashboard": "Tableau de bord",
+      "login": "Connexion",
+      "register": "S'inscrire"
+   },
    "hello": "Bonjour"
 }

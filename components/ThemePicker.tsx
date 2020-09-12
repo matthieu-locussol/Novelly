@@ -1,27 +1,29 @@
 import React from 'react';
-
-import IconButton from '@material-ui/core/IconButton';
-
+import { IconButton } from '@material-ui/core';
 import DarkIcon from '@material-ui/icons/Brightness4';
 import LightIcon from '@material-ui/icons/Brightness7';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import { useTheme } from '@contexts/ThemeProvider';
 
+const useStyles = makeStyles(() =>
+   createStyles({
+      button: {
+         color: 'inherit',
+      },
+   }),
+);
+
 const ThemePicker = () => {
-   const { theme, muiTheme, setTheme } = useTheme();
+   const classes = useStyles();
+   const { theme, setTheme } = useTheme();
 
    const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
 
    return (
-      <div className="theme-picker">
-         <IconButton onClick={() => toggleTheme()}>
-            {theme === 'dark' ? (
-               <LightIcon style={{ color: muiTheme.palette.text.primary }} />
-            ) : (
-               <DarkIcon style={{ color: muiTheme.palette.text.primary }} />
-            )}
-         </IconButton>
-      </div>
+      <IconButton className={classes.button} aria-label="theme" onClick={() => toggleTheme()}>
+         {theme === 'dark' ? <LightIcon /> : <DarkIcon />}
+      </IconButton>
    );
 };
 

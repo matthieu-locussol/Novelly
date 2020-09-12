@@ -1,3 +1,8 @@
 {
-   "hello": "Olá"
+   "menu": {
+      "dashboard": "Dashboard",
+      "login": "Login",
+      "register": "Register"
+   },
+   "hello": "Hello"
 }

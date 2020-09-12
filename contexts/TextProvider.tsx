@@ -45,8 +45,6 @@ export const TextProvider = ({ children }: TextProviderInterface) => {
    };
 
    useEffect(() => {
-      console.log(TEXTS[lang]);
-      console.log('Lang changed in textProvider.');
       setTexts(TEXTS[lang]);
    }, [lang]);
 

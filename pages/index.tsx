@@ -1,34 +1,24 @@
-import Layout from '@components/layout/Layout';
-import Welcome from '@components/Welcome';
-import BooksPreview from '@components/BooksPreview';
+import React from 'react';
+import { Box, Container, Typography } from '@material-ui/core';
 
+import Header from '@components/Header';
 import { useText } from '@contexts/TextProvider';
 
-const IndexPage = () => {
+const Index = () => {
    const { texts } = useText();
 
    return (
-      <Layout>
-         <Welcome>
-            <h1>{texts.hello}, Matthieu.</h1>
-            <p>It looks like you've already started writing a story, keep up the good work.</p>
-         </Welcome>
-         <BooksPreview
-            booksInfos={[
-               {
-                  title: 'Book 1',
-                  summary:
-                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-               },
-               {
-                  title: 'Book 2',
-                  summary:
-                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-               },
-            ]}
-         />
-      </Layout>
+      <>
+         <Header />
+         <Container maxWidth="md">
+            <Box my={4}>
+               <Typography variant="h4" component="h1" gutterBottom>
+                  What is Novelly ?
+               </Typography>
+            </Box>
+         </Container>
+      </>
    );
 };
 
-export default IndexPage;
+export default Index;

@@ -1,13 +1,9 @@
 import React from 'react';
-
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import IconButton from '@material-ui/core/IconButton';
-
+import { Menu, MenuItem, IconButton } from '@material-ui/core';
 import TranslateIcon from '@material-ui/icons/Translate';
+import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { useLang } from '@contexts/LangProvider';
-import { useTheme } from '@contexts/ThemeProvider';
 
 const LANGUAGES: Record<string, string> = {
    en: 'English',
@@ -20,9 +16,20 @@ const LANGUAGES: Record<string, string> = {
    ja: '日本語',
 };
 
+const useStyles = makeStyles(() =>
+   createStyles({
+      button: {
+         color: 'inherit',
+      },
+      active: {
+         fontWeight: 'bold',
+      },
+   }),
+);
+
 const LangPicker = () => {
-   const { setLang } = useLang();
-   const { muiTheme } = useTheme();
+   const classes = useStyles();
+   const { lang, setLang } = useLang();
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,9 +46,14 @@ const LangPicker = () => {
    };
 
    return (
-      <div className="lang-picker">
-         <IconButton aria-controls="lang-picker-menu" aria-haspopup="true" onClick={handleClick}>
-            <TranslateIcon style={{ color: muiTheme.palette.text.primary }} />
+      <>
+         <IconButton
+            aria-label="language"
+            aria-controls="lang-picker-menu"
+            aria-haspopup="true"
+            className={classes.button}
+            onClick={handleClick}>
+            <TranslateIcon />
          </IconButton>
          <Menu
             id="lang-picker-menu"
@@ -51,11 +63,13 @@ const LangPicker = () => {
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}>
-            {Object.keys(LANGUAGES).map((lang) => (
-               <MenuItem onClick={() => chooseLang(lang)}>{LANGUAGES[lang]}</MenuItem>
+            {Object.keys(LANGUAGES).map((l, key) => (
+               <MenuItem className={lang === l ? classes.active : ''} key={key} onClick={() => chooseLang(l)}>
+                  {LANGUAGES[l]}
+               </MenuItem>
             ))}
          </Menu>
-      </div>
+      </>
    );
 };
 
