@@ -23,7 +23,10 @@ export const LangProvider = ({ children }: LangProviderInterface) => {
 
    useEffect(() => {
       const userLang = window.localStorage.getItem('lang') as LangType;
-      setLang(userLang);
+
+      if (userLang) {
+         setLang(userLang);
+      }
    }, []);
 
    const state: LangContextInterface = {

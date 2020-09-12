@@ -41,7 +41,10 @@ export const ThemeProvider = ({ children }: ThemeProviderInterface) => {
 
    useEffect(() => {
       const userTheme = window.localStorage.getItem('theme') as ThemeType;
-      selectTheme(userTheme);
+
+      if (userTheme) {
+         selectTheme(userTheme);
+      }
    }, []);
 
    return (
