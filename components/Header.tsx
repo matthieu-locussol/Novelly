@@ -1,11 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { AppBar, Divider, Toolbar, IconButton } from '@material-ui/core';
-import {
-   BugReportRounded as BugIcon,
-   HomeRounded as HomeIcon,
-   AccountCircle as AccountIcon,
-} from '@material-ui/icons';
+import { HomeRounded as HomeIcon, AccountCircle as AccountIcon } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import BugReport from '@components/BugReport';

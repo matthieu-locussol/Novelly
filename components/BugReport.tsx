@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
-   Box,
    IconButton,
    Avatar,
    Button,
@@ -14,8 +13,6 @@ import {
    DialogTitle,
    Dialog,
    TextField,
-   FormControlLabel,
-   Checkbox,
    Typography,
 } from '@material-ui/core';
 import { NewReleasesRounded as FeatureIcon, BugReportRounded as BugIcon } from '@material-ui/icons';
