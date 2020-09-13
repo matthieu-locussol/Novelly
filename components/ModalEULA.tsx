@@ -6,8 +6,8 @@ import {
    DialogContent,
    DialogContentText,
    DialogTitle,
+   useMediaQuery,
 } from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import { useTheme } from '@contexts/ThemeProvider';
 

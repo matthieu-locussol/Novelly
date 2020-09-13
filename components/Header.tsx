@@ -1,8 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { AppBar, Divider, Toolbar, IconButton } from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { HomeRounded as HomeIcon, AccountCircle as AccountIcon } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import LangPicker from '@components/LangPicker';
@@ -62,7 +61,7 @@ const Header = () => {
                <Divider className={classes.divider} orientation="vertical" flexItem />
                <Link href="/login">
                   <IconButton className={classes.button}>
-                     <AccountCircleIcon />
+                     <AccountIcon />
                   </IconButton>
                </Link>
             </Toolbar>

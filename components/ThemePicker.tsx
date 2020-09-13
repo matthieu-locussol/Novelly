@@ -1,7 +1,6 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
-import DarkIcon from '@material-ui/icons/Brightness4';
-import LightIcon from '@material-ui/icons/Brightness7';
+import { Brightness4Rounded as DarkIcon, Brightness7Rounded as LightIcon } from '@material-ui/icons';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { useTheme } from '@contexts/ThemeProvider';

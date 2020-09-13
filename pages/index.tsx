@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
 import Layout from '@components/Layout';
+import WritingMenu from '@components/WritingMenu';
 import { useText } from '@contexts/TextProvider';
 
 const Index = () => {
@@ -18,6 +19,7 @@ const Index = () => {
                   What is Novelly ?
                </Typography>
             </Box>
+            <WritingMenu />
          </Container>
       </Layout>
    );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Menu, MenuItem, IconButton } from '@material-ui/core';
-import TranslateIcon from '@material-ui/icons/Translate';
+import { TranslateRounded as TranslateIcon } from '@material-ui/icons';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { useLang } from '@contexts/LangProvider';
