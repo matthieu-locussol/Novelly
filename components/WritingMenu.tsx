@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import {
@@ -39,7 +39,7 @@ const actions = [
 
 const WritingMenu = () => {
    const classes = useStyles();
-   const [open, setOpen] = React.useState(false);
+   const [open, setOpen] = useState(false);
 
    const handleClose = () => {
       setOpen(false);
