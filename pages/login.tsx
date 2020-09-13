@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
 import Layout from '@components/Layout';
-import LoginForm from '@components/LoginForm';
-import NotRegistered from '@components/NotRegistered';
+import LoginForm from '@components/Auth/LoginForm';
+import NotRegistered from '@components/Auth/NotRegistered';
 
 const Index = () => {
    return (

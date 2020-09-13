@@ -1,10 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { AppBar, Divider, Toolbar, IconButton } from '@material-ui/core';
-import { HomeRounded as HomeIcon, AccountCircle as AccountIcon } from '@material-ui/icons';
+import {
+   HomeRounded as HomeIcon,
+   AccountCircle as AccountIcon,
+   MenuBookRounded as BooksIcon,
+} from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import BugReport from '@components/BugReport';
+import BugReport from '@components/BugReport/BugReport';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
 
@@ -50,6 +54,11 @@ const Header = () => {
                <Link href="/">
                   <IconButton className={classes.button}>
                      <HomeIcon />
+                  </IconButton>
+               </Link>
+               <Link href="/books">
+                  <IconButton className={classes.button}>
+                     <BooksIcon />
                   </IconButton>
                </Link>
                <div className={classes.sep} />
