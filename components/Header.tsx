@@ -1,9 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { AppBar, Divider, Toolbar, IconButton } from '@material-ui/core';
-import { HomeRounded as HomeIcon, AccountCircle as AccountIcon } from '@material-ui/icons';
+import {
+   BugReportRounded as BugIcon,
+   HomeRounded as HomeIcon,
+   AccountCircle as AccountIcon,
+} from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import BugReport from '@components/BugReport';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
 
@@ -52,6 +57,9 @@ const Header = () => {
                   </IconButton>
                </Link>
                <div className={classes.sep} />
+               <div className={classes.buttonRight}>
+                  <BugReport />
+               </div>
                <div className={classes.buttonRight}>
                   <LangPicker />
                </div>
