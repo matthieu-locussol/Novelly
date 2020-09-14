@@ -14,7 +14,7 @@ import {
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
       root: {
-         position: 'absolute',
+         position: 'fixed',
          right: 0,
          bottom: 0,
          marginTop: theme.spacing(3),
