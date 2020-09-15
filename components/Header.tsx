@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { AppBar, Divider, Toolbar, IconButton } from '@material-ui/core';
 import {
    HomeRounded as HomeIcon,
    AccountCircle as AccountIcon,
    MenuBookRounded as BooksIcon,
+   MenuRounded as MenuIcon,
 } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -46,11 +48,22 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header = () => {
    const classes = useStyles();
+   const router = useRouter();
+
+   const isEditor = router.asPath === '/editor';
 
    return (
       <div className={classes.root}>
          <AppBar position="static">
             <Toolbar disableGutters className={classes.toolbar}>
+               {isEditor && (
+                  <>
+                     <IconButton className={classes.buttonRight} onClick={() => alert('Clicked!')}>
+                        <MenuIcon />
+                     </IconButton>
+                     <Divider className={classes.divider} orientation="vertical" flexItem />
+                  </>
+               )}
                <Link href="/">
                   <IconButton className={classes.button}>
                      <HomeIcon />
