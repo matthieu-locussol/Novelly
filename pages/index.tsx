@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
-import Layout from '@components/Layout';
+import Layout from '@components/Layout/Layout';
 
 const Index = () => {
    return (

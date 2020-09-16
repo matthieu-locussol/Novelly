@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
-import Layout from '@components/Layout';
+import Layout from '@components/Layout/Layout';
 import Book from '@components/Book';
 import BooksMenu from '@components/BooksMenu';
 

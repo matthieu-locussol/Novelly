@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 
-import Layout from '@components/Layout';
+import Layout from '@components/Layout/Layout';
 import RegisterForm from '@components/Auth/RegisterForm';
 import AlreadyRegistered from '@components/Auth/AlreadyRegistered';
 

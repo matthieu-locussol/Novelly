@@ -19,16 +19,10 @@ const useStyles = makeStyles((theme: Theme) =>
       root: {
          flexGrow: 1,
       },
-      button: {
-         color: 'inherit',
-      },
-      buttonLeft: {
-         color: 'inherit',
-         '&:not(:first-child)': {
-            marginLeft: theme.spacing(1),
-         },
-      },
       buttonRight: {
+         color: 'inherit',
+      },
+      button: {
          color: 'inherit',
          marginRight: theme.spacing(1),
       },
@@ -58,7 +52,7 @@ const Header = () => {
             <Toolbar disableGutters className={classes.toolbar}>
                {isEditor && (
                   <>
-                     <IconButton className={classes.buttonRight} onClick={() => alert('Clicked!')}>
+                     <IconButton className={classes.button} onClick={() => alert('Clicked!')}>
                         <MenuIcon />
                      </IconButton>
                      <Divider className={classes.divider} orientation="vertical" flexItem />
@@ -75,18 +69,18 @@ const Header = () => {
                   </IconButton>
                </Link>
                <div className={classes.sep} />
-               <div className={classes.buttonRight}>
+               <div className={classes.button}>
                   <BugReport />
                </div>
-               <div className={classes.buttonRight}>
+               <div className={classes.button}>
                   <LangPicker />
                </div>
-               <div className={classes.buttonRight}>
+               <div className={classes.button}>
                   <ThemePicker />
                </div>
                <Divider className={classes.divider} orientation="vertical" flexItem />
                <Link href="/login">
-                  <IconButton className={classes.button}>
+                  <IconButton className={classes.buttonRight}>
                      <AccountIcon />
                   </IconButton>
                </Link>
