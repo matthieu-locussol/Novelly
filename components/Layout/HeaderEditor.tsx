@@ -58,11 +58,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface HeaderEditorProps {
    sections?: any[];
+   callback?: any;
 }
 
-const HeaderEditor = ({ sections }: HeaderEditorProps) => {
+const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
    const classes = useStyles();
    const [open, setOpen] = useState(false);
+
+   const toggleDrawer = () => {
+      const newValue = !open;
+      setOpen(newValue);
+
+      if (callback) {
+         callback(newValue);
+      }
+   };
 
    return (
       <>
@@ -72,7 +82,7 @@ const HeaderEditor = ({ sections }: HeaderEditorProps) => {
             className={classes.drawer}
             PaperProps={{ elevation: 4 }}>
             <div className={classes.button}>
-               <IconButton color="inherit" onClick={() => setOpen(!open)}>
+               <IconButton color="inherit" onClick={() => toggleDrawer()}>
                   {open ? <CloseIcon /> : <OpenIcon />}
                </IconButton>
             </div>

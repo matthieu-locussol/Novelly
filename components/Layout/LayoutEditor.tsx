@@ -26,9 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
 interface LayoutEditorProps {
    bookId: number;
    children: any;
+   callback?: any;
 }
 
-const LayoutEditor = ({ bookId, children }: LayoutEditorProps) => {
+const LayoutEditor = ({ bookId, children, callback }: LayoutEditorProps) => {
    const classes = useStyles();
    const { muiTheme } = useTheme();
    const desktop = useMediaQuery(muiTheme.breakpoints.up('sm'));
@@ -46,7 +47,11 @@ const LayoutEditor = ({ bookId, children }: LayoutEditorProps) => {
 
    return (
       <>
-         {desktop ? <HeaderEditor sections={sections} /> : <HeaderMobile sections={sections} />}
+         {desktop ? (
+            <HeaderEditor sections={sections} callback={callback} />
+         ) : (
+            <HeaderMobile sections={sections} />
+         )}
          <div className={desktop ? classes.desktop : ''}>{children}</div>
       </>
    );

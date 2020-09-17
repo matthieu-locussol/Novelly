@@ -1,7 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-import RichEditorTheme from '@themes/common/RichEditor';
-
 const Dark = createMuiTheme({
    palette: {
       type: 'dark',
@@ -10,7 +8,7 @@ const Dark = createMuiTheme({
          contrastText: '#ffffff',
       },
       secondary: {
-         main: '#2c3c4d',
+         main: '#faf4ff',
       },
       background: {
          default: '#36393f',
@@ -23,10 +21,9 @@ const Dark = createMuiTheme({
    overrides: {
       //@ts-ignore
       MUIRichTextEditor: {
-         ...RichEditorTheme,
          editor: {
             backgroundColor: '#36393f',
-            maxHeight: '75vh',
+            maxHeight: 'calc(100vh - 112px)',
             overflow: 'scroll',
             overflowX: 'hidden',
             '&::-webkit-scrollbar': {
