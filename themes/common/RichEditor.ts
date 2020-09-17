@@ -6,11 +6,9 @@ const RichEditorTheme = {
    toolbar: {
       width: '100%',
       display: 'flex',
+      flexWrap: 'wrap',
       marginBottom: '16px',
       justifyContent: 'center',
-      '& > *:not(:first-child)': {
-         marginLeft: '8px',
-      },
    },
    container: {
       width: '100%',

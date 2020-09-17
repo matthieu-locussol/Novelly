@@ -49,17 +49,15 @@ const Editor = () => {
    };
 
    // Faire bouton taille éditeur
-   // Drawer qui sort de l'AppBar pour les sections
    // Autosave toutes les 5min vers FaunaDB + localStorage toutes les 5 secondes
+   // Pour la height de l'editor faire calc(blabla - blabla)
+   // Déplacement du texte en fondu (un div en bas un div en haut avec un dégradé transparent)
+   // Mise en place d'un tableau de liège (V2)
 
    return (
-      <LayoutEditor>
+      <LayoutEditor bookId={1}>
          <Container maxWidth="sm" className={classes.editor}>
-            <Box
-               my={4}
-               className={classes.box}
-               onClick={() => focus()}
-               onMouseEnter={() => console.log('IN')}>
+            <Box my={4} className={classes.box} onClick={() => focus()}>
                <RichEditor ref={editorRef} controls={controls} label="Start typing..." onSave={save} />
             </Box>
             <WritingMenu />
