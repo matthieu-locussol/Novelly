@@ -1,7 +1,22 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { Button, DialogActions, TextField, DialogTitle, Dialog, DialogContent } from '@material-ui/core';
+import {
+   AppBar,
+   Toolbar,
+   IconButton,
+   Button,
+   DialogActions,
+   DialogContent,
+   DialogTitle,
+   Dialog,
+   TextField,
+   Typography,
+   useMediaQuery,
+} from '@material-ui/core';
+import { CloseRounded as CloseIcon } from '@material-ui/icons';
+
+import { useTheme } from '@contexts/ThemeProvider';
 
 interface CreateBookProps {
    open: boolean;
@@ -21,16 +36,25 @@ const useStyles = makeStyles((theme: Theme) =>
       content: {
          display: 'flex',
          flexDirection: 'column',
-         '& > *:not(:first-child)': {
+         '& > *': {
             marginTop: theme.spacing(2),
          },
+      },
+      appBar: {
+         position: 'relative',
+      },
+      title: {
+         marginLeft: theme.spacing(2),
+         flex: 1,
       },
    }),
 );
 
 const CreateBook = ({ open, onClose }: CreateBookProps) => {
    const classes = useStyles();
+   const { muiTheme } = useTheme();
    const { register, handleSubmit } = useForm();
+   const fullScreen = useMediaQuery(muiTheme.breakpoints.down('sm'));
 
    const onSubmit = (data: IBookData) => {
       console.log(data);
@@ -39,12 +63,28 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
    return (
       <Dialog
          fullWidth
+         fullScreen={fullScreen}
          onClose={() => onClose()}
          aria-labelledby="create-book"
          aria-describedby="create-book-content"
          open={open}>
-         <DialogTitle id="create-book">Create a new book</DialogTitle>
          <form onSubmit={handleSubmit(onSubmit)}>
+            {!fullScreen && <DialogTitle id="create-book">Create a new book</DialogTitle>}
+            {fullScreen && (
+               <AppBar className={classes.appBar}>
+                  <Toolbar>
+                     <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
+                        <CloseIcon />
+                     </IconButton>
+                     <Typography variant="h6" className={classes.title}>
+                        Create a new book
+                     </Typography>
+                     <Button autoFocus color="inherit" type="submit">
+                        Create
+                     </Button>
+                  </Toolbar>
+               </AppBar>
+            )}
             <DialogContent id="create-book-content" className={classes.content}>
                <TextField required name="title" label="Title" variant="outlined" inputRef={register} />
                <TextField
@@ -57,14 +97,16 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                   inputRef={register}
                />
             </DialogContent>
-            <DialogActions>
-               <Button onClick={onClose} color="primary">
-                  Cancel
-               </Button>
-               <Button type="submit" color="primary" variant="contained">
-                  Create
-               </Button>
-            </DialogActions>
+            {!fullScreen && (
+               <DialogActions>
+                  <Button onClick={onClose} color="primary">
+                     Cancel
+                  </Button>
+                  <Button type="submit" color="primary" variant="contained">
+                     Create
+                  </Button>
+               </DialogActions>
+            )}
          </form>
       </Dialog>
    );
