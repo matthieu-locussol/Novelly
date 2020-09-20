@@ -1,20 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import {
-   Avatar,
-   List,
-   ListItem,
-   ListItemAvatar,
-   ListItemText,
-   Button,
-   DialogActions,
-   TextField,
-   DialogTitle,
-   Dialog,
-   DialogContent,
-} from '@material-ui/core';
-import { NewReleasesRounded as FeatureIcon, BugReportRounded as BugIcon } from '@material-ui/icons';
+import { Button, DialogActions, TextField, DialogTitle, Dialog, DialogContent } from '@material-ui/core';
 
 interface CreateBookProps {
    open: boolean;
