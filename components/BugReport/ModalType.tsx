@@ -1,6 +1,17 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, DialogTitle, Dialog } from '@material-ui/core';
+import {
+   Avatar,
+   Button,
+   List,
+   ListItem,
+   ListItemAvatar,
+   ListItemText,
+   DialogTitle,
+   Dialog,
+   DialogContent,
+   DialogActions,
+} from '@material-ui/core';
 import { NewReleasesRounded as FeatureIcon, BugReportRounded as BugIcon } from '@material-ui/icons';
 
 interface ModalTypeProps {
@@ -9,27 +20,27 @@ interface ModalTypeProps {
    setValue: (value: string) => void;
 }
 
-export const REPORT_TYPES = [
+export const actions = [
    {
       name: 'bug',
       title: 'Report a bug',
       icon: <BugIcon />,
-      description:
-         'Novelly is still in a development stage, so you might experience some issues while using it. If so, please help us improving the website by reporting bugs!',
    },
    {
       name: 'feature',
       title: 'Request a feature',
       icon: <FeatureIcon />,
-      description:
-         'Is there a feature you want us to add to Novelly? If so, please help us improving the website by submitting your suggestion!',
    },
 ];
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
       avatar: {
+         color: theme.palette.primary.contrastText,
          backgroundColor: theme.palette.primary.main,
+      },
+      content: {
+         padding: 0,
       },
    }),
 );
@@ -45,16 +56,23 @@ const ModalType = ({ open, onClose, setValue }: ModalTypeProps) => {
    return (
       <Dialog onClose={() => onClose()} aria-labelledby="report-type" open={open}>
          <DialogTitle id="report-type">What would you want to do?</DialogTitle>
-         <List>
-            {REPORT_TYPES.map((type) => (
-               <ListItem button onClick={() => handleListItemClick(type.name)} key={type.name}>
-                  <ListItemAvatar>
-                     <Avatar className={classes.avatar}>{type.icon}</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={type.title} />
-               </ListItem>
-            ))}
-         </List>
+         <DialogContent className={classes.content}>
+            <List>
+               {actions.map((action) => (
+                  <ListItem button onClick={() => handleListItemClick(action.name)} key={action.name}>
+                     <ListItemAvatar>
+                        <Avatar className={classes.avatar}>{action.icon}</Avatar>
+                     </ListItemAvatar>
+                     <ListItemText primary={action.title} />
+                  </ListItem>
+               ))}
+            </List>
+         </DialogContent>
+         <DialogActions>
+            <Button onClick={onClose} color="primary">
+               Cancel
+            </Button>
+         </DialogActions>
       </Dialog>
    );
 };

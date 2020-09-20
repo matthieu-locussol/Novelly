@@ -3,7 +3,8 @@ import { IconButton } from '@material-ui/core';
 import { BugReportRounded as BugIcon } from '@material-ui/icons';
 
 import ModalType from '@components/BugReport/ModalType';
-import ModalForm from '@components/BugReport/ModalForm';
+import BugForm from '@components/BugReport/BugForm';
+import FeatureForm from '@components/BugReport/FeatureForm';
 
 const BugReport = () => {
    const [openType, setOpenType] = useState(false);
@@ -33,8 +34,11 @@ const BugReport = () => {
          <IconButton color="inherit" onClick={handleClickOpen}>
             <BugIcon />
          </IconButton>
+         {/* Step 1: Ask for an action */}
          <ModalType open={openType} onClose={handleCloseType} setValue={setSelectedType} />
-         <ModalForm open={openForm} onClose={handleCloseForm} type={type} />
+         {/* Step 2: Action form */}
+         {type === 'bug' && <BugForm open={openForm} onClose={handleCloseForm} />}
+         {type === 'feature' && <FeatureForm open={openForm} onClose={handleCloseForm} />}
       </>
    );
 };

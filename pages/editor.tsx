@@ -87,8 +87,6 @@ const Editor = () => {
       editorRef.current?.focus();
    };
 
-   // Autosave toutes les 5min vers FaunaDB + localStorage toutes les 5 secondes
-
    return (
       <LayoutEditor bookId={1} callback={setIsOpen}>
          <Container maxWidth="md" className={classes.editor}>

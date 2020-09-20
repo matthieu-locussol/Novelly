@@ -40,13 +40,13 @@ const ModalEULA = ({ open, setOpen }: ModalEULAProps) => {
          onClose={handleClose}
          scroll="paper"
          fullScreen={fullScreen}
-         aria-labelledby="scroll-dialog-title"
-         aria-describedby="scroll-dialog-description">
-         <DialogTitle id="scroll-dialog-title">End-User Licence Agreement</DialogTitle>
+         aria-labelledby="eula-dialog-title"
+         aria-describedby="eula-dialog-description">
+         <DialogTitle id="eula-dialog-title">End-User Licence Agreement</DialogTitle>
          <DialogContent dividers>
             <DialogContentText
                color="textPrimary"
-               id="scroll-dialog-description"
+               id="eula-dialog-description"
                ref={descriptionElementRef}
                tabIndex={-1}>
                {[...new Array(50)]

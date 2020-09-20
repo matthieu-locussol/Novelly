@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Fab } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { AddRounded as AddIcon } from '@material-ui/icons';
+
+import CreateBook from '@components/Books/CreateBook';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -15,11 +17,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const BooksMenu = () => {
    const classes = useStyles();
+   const [open, setOpen] = useState(false);
 
    return (
-      <Fab aria-label="books-menu" className={classes.root} color="primary">
-         <AddIcon />
-      </Fab>
+      <>
+         <CreateBook open={open} onClose={() => setOpen(false)} />
+         <Fab aria-label="books-menu" className={classes.root} color="primary" onClick={() => setOpen(true)}>
+            <AddIcon />
+         </Fab>
+      </>
    );
 };
 
