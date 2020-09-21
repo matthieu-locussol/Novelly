@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-   AppBar,
-   Toolbar,
-   IconButton,
-   Drawer,
-   Divider,
-   List,
-   ListItem,
-   ListItemIcon,
-   ListItemText,
-} from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Drawer } from '@material-ui/core';
 import { AddRounded as AddIcon, SettingsRounded as SettingsIcon } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
