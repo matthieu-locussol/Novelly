@@ -1,5 +1,5 @@
 import React from 'react';
-import { Fade, Fab, useMediaQuery } from '@material-ui/core';
+import { Fab, useMediaQuery } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { SaveRounded as SaveIcon } from '@material-ui/icons';
 
