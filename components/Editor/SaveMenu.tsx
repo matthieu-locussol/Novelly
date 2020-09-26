@@ -1,9 +1,14 @@
 import React from 'react';
-import { Fab, useMediaQuery } from '@material-ui/core';
+import { Fade, Fab, useMediaQuery } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { SaveRounded as SaveIcon } from '@material-ui/icons';
 
 import { useTheme } from '@contexts/ThemeProvider';
+
+interface SaveMenuProps {
+   visible?: boolean;
+   onClick?: () => void;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -20,15 +25,23 @@ const useStyles = makeStyles((theme: Theme) =>
    }),
 );
 
-const SaveMenu = () => {
+const SaveMenu = ({ visible = false, ...rest }: SaveMenuProps) => {
    const classes = useStyles();
    const { muiTheme } = useTheme();
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
 
-   return (
-      <Fab aria-label="save-menu" className={isMobile ? classes.mobile : classes.desktop} color="secondary">
-         <SaveIcon />
-      </Fab>
+   return visible ? (
+      <Fade in={visible} timeout={500}>
+         <Fab
+            aria-label="save-menu"
+            className={isMobile ? classes.mobile : classes.desktop}
+            color="secondary"
+            {...rest}>
+            <SaveIcon />
+         </Fab>
+      </Fade>
+   ) : (
+      <></>
    );
 };
 
