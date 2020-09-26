@@ -6,7 +6,7 @@ import { SaveRounded as SaveIcon } from '@material-ui/icons';
 import { useTheme } from '@contexts/ThemeProvider';
 
 interface SaveMenuProps {
-   visible?: boolean;
+   disabled?: boolean;
    onClick?: () => void;
 }
 
@@ -25,23 +25,20 @@ const useStyles = makeStyles((theme: Theme) =>
    }),
 );
 
-const SaveMenu = ({ visible = false, ...rest }: SaveMenuProps) => {
+const SaveMenu = ({ disabled = false, ...rest }: SaveMenuProps) => {
    const classes = useStyles();
    const { muiTheme } = useTheme();
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
 
-   return visible ? (
-      <Fade in={visible} timeout={500}>
-         <Fab
-            aria-label="save-menu"
-            className={isMobile ? classes.mobile : classes.desktop}
-            color="secondary"
-            {...rest}>
-            <SaveIcon />
-         </Fab>
-      </Fade>
-   ) : (
-      <></>
+   return (
+      <Fab
+         disabled={disabled}
+         aria-label="save-menu"
+         className={isMobile ? classes.mobile : classes.desktop}
+         color="secondary"
+         {...rest}>
+         <SaveIcon />
+      </Fab>
    );
 };
 

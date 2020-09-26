@@ -15,7 +15,6 @@ import SaveMenu from '@components/Editor/SaveMenu';
 import { useTheme } from '@contexts/ThemeProvider';
 
 const AUTOSAVE_DELAY = 1000;
-const CLOUDSAVE_DELAY = 2000;
 
 const controls = [
    'title',
@@ -36,7 +35,7 @@ const Editor = () => {
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
    const [fullSize, setFullSize] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
-   const [value, setValue] = useState('');
+   const [initialValue, setInitialValue] = useState('');
    const [remoteValue, setRemoteValue] = useState<string | undefined>(undefined);
    const [canCloudSave, setCanCloudSave] = useState(false);
    const [loading, setLoading] = useState(true);
@@ -92,6 +91,15 @@ const Editor = () => {
       editorRef.current?.focus();
    };
 
+   const getValue = () => {
+      const value = window.localStorage.getItem('editor');
+      return value || '';
+   };
+
+   const setValue = (data: string) => {
+      window.localStorage.setItem('editor', data);
+   };
+
    // Change this function to retrieve the book data from FaunaDB
    const fetchCloudContent = async () => {
       const sleep = (ms: number) => {
@@ -101,45 +109,43 @@ const Editor = () => {
       // We need to fetch data here by awaiting
       // Data then have to be set in "remoteValue" => corresponds to cloud content
       await sleep(Math.random() * 3000 + 2000); // 2s to 5s
-      const content = window.localStorage.getItem('editor');
-      setRemoteValue(content || '');
+      const content = getValue();
+      setRemoteValue(content);
 
-      setCanCloudSave(true);
+      const isDifferent = content !== getValue();
+      setCanCloudSave(isDifferent);
       setLoading(false);
    };
 
-   const shouldSave = () => remoteValue !== undefined && !(value === remoteValue) && canCloudSave;
+   const shouldSave = () => remoteValue !== undefined && !(getValue() === remoteValue);
 
    const initialize = () => {
-      const content = window.localStorage.getItem('editor');
-      setValue(content || '');
+      setInitialValue(getValue());
    };
 
    const save = (data: string) => {
-      const current = window.localStorage.getItem('editor');
-
-      if (current !== data) {
+      if (getValue() !== data) {
+         console.log('Data saved!');
          setValue(data);
-         window.localStorage.setItem('editor', data);
+         setCanCloudSave(true);
       }
    };
 
    const saveCloud = () => {
       if (shouldSave()) {
+         console.log('Saving to FaunaDB.');
+
          editorRef.current?.save();
-         const content = window.localStorage.getItem('editor');
+         const content = getValue();
 
-         if (content !== null) {
-            setCanCloudSave(false);
-
-            // Send content to FaunaDB
-            // Then =>
-            //   Updates the "remoteValue" corresponding to the cloud value
-            //   Allow the new cloud save after a delay to prevent spam-save
-            setRemoteValue(content);
-            setTimeout(() => setCanCloudSave(true), CLOUDSAVE_DELAY);
-         }
+         // Send content to FaunaDB
+         // Then =>
+         //   Updates the "remoteValue" corresponding to the cloud value
+         //   Allow the new cloud save after a delay to prevent spam-save
+         setRemoteValue(content);
       }
+
+      setCanCloudSave(false);
    };
 
    const saveHotkey = (editorState: EditorState) => {
@@ -169,7 +175,7 @@ const Editor = () => {
                ) : (
                   <RichEditor
                      ref={editorRef}
-                     value={value}
+                     value={initialValue}
                      classes={{
                         root: classes.root,
                         editor: classes.rteEditor,
@@ -196,7 +202,7 @@ const Editor = () => {
                   />
                )}
             </Box>
-            <SaveMenu visible={shouldSave()} onClick={() => saveCloud()}></SaveMenu>
+            <SaveMenu disabled={!canCloudSave} onClick={() => saveCloud()}></SaveMenu>
             <WritingMenu />
          </Container>
       </LayoutEditor>
