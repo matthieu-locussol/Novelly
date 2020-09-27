@@ -68,9 +68,6 @@ const Editor = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            '& > *': {
-               color: 'inherit',
-            },
          },
          container: {
             width: '100%',
