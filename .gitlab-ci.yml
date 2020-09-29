@@ -32,13 +32,23 @@ build:
       paths:
          - out
 
-deploy:
-   resource_group: deploy
-   stage: deploy
-   script:
-      - yarn global add netlify-cli
-      - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
-   dependencies:
-      - build
-   only:
-      - master
+.deploy_template:
+  resource_group: deploy
+  stage: deploy
+  before_script:
+    - yarn global add netlify-cli
+  dependencies:
+    - build
+  only:
+    - master
+
+staging:
+  <<: *deploy_template
+  script:
+    - netlify deploy --site $NETLIFY_SITE_ID_STAGING --auth $NETLIFY_AUTH_TOKEN --prod
+
+production:
+  <<: *deploy_template
+  when: manual
+  script:
+    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
