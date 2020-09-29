@@ -69,7 +69,7 @@ const ModalType = ({ open, onClose, setValue }: ModalTypeProps) => {
             </List>
          </DialogContent>
          <DialogActions>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={onClose} color="inherit">
                Cancel
             </Button>
          </DialogActions>

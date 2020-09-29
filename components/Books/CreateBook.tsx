@@ -11,6 +11,8 @@ import {
    DialogTitle,
    Dialog,
    TextField,
+   Checkbox,
+   FormControlLabel,
    Typography,
    useMediaQuery,
 } from '@material-ui/core';
@@ -26,6 +28,7 @@ interface CreateBookProps {
 interface IBookData {
    title: string;
    description?: string;
+   private: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -96,10 +99,16 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                   variant="outlined"
                   inputRef={register}
                />
+               <FormControlLabel
+                  control={
+                     <Checkbox required name="private" color="primary" inputRef={register} defaultChecked />
+                  }
+                  label={<Typography>Private</Typography>}
+               />
             </DialogContent>
             {!fullScreen && (
                <DialogActions>
-                  <Button onClick={onClose} color="primary">
+                  <Button onClick={onClose} color="inherit">
                      Cancel
                   </Button>
                   <Button type="submit" color="primary" variant="contained">

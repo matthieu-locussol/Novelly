@@ -111,7 +111,7 @@ const BugForm = ({ open, onClose }: BugFormProps) => {
             </DialogContent>
             {!fullScreen && (
                <DialogActions>
-                  <Button onClick={onClose} color="primary">
+                  <Button onClick={onClose} color="inherit">
                      Cancel
                   </Button>
                   <Button type="submit" color="primary" variant="contained">

@@ -13,17 +13,13 @@ import { useTheme } from '@contexts/ThemeProvider';
 
 interface ModalEULAProps {
    open: boolean;
-   setOpen: any;
+   onClose: any;
 }
 
-const ModalEULA = ({ open, setOpen }: ModalEULAProps) => {
+const ModalEULA = ({ open, onClose }: ModalEULAProps) => {
    const { muiTheme } = useTheme();
    const descriptionElementRef = useRef<HTMLElement>(null);
    const fullScreen = useMediaQuery(muiTheme.breakpoints.down('sm'));
-
-   const handleClose = () => {
-      setOpen(false);
-   };
 
    useEffect(() => {
       if (open) {
@@ -37,7 +33,7 @@ const ModalEULA = ({ open, setOpen }: ModalEULAProps) => {
    return (
       <Dialog
          open={open}
-         onClose={handleClose}
+         onClose={onClose}
          scroll="paper"
          fullScreen={fullScreen}
          aria-labelledby="eula-dialog-title"
@@ -60,7 +56,7 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
             </DialogContentText>
          </DialogContent>
          <DialogActions>
-            <Button onClick={handleClose} color="primary" variant="outlined">
+            <Button onClick={onClose} color="primary" variant="outlined">
                Close
             </Button>
          </DialogActions>

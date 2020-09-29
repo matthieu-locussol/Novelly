@@ -15,6 +15,7 @@ import ModalEULA from '@components/ModalEULA';
 
 interface IRegisterData {
    mail: string;
+   pseudonym: string;
    password: string;
    confirmation: string;
 }
@@ -85,7 +86,7 @@ const RegisterForm = () => {
                Create an account
             </Button>
          </form>
-         <ModalEULA open={openEULA} setOpen={setOpenEULA} />
+         <ModalEULA open={openEULA} onClose={() => setOpenEULA(false)} />
       </Container>
    );
 };

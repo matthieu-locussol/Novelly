@@ -11,6 +11,8 @@ import {
    AssignmentIndRounded as CharactersIcon,
 } from '@material-ui/icons';
 
+import ModalWIP from '../ModalWIP';
+
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
       root: {
@@ -40,6 +42,7 @@ const actions = [
 const WritingMenu = () => {
    const classes = useStyles();
    const [open, setOpen] = useState(false);
+   const [openWIP, setOpenWIP] = useState(false);
 
    const handleClose = () => {
       setOpen(false);
@@ -47,6 +50,14 @@ const WritingMenu = () => {
 
    const handleOpen = () => {
       setOpen(true);
+   };
+
+   const showWIP = () => {
+      setOpenWIP(true);
+   };
+
+   const hideWIP = () => {
+      setOpenWIP(false);
    };
 
    return (
@@ -64,10 +75,11 @@ const WritingMenu = () => {
                   key={action.name}
                   icon={action.icon}
                   tooltipTitle={action.name}
-                  onClick={handleClose}
+                  onClick={showWIP}
                />
             ))}
          </SpeedDial>
+         <ModalWIP open={openWIP} onClose={hideWIP} />
       </div>
    );
 };
