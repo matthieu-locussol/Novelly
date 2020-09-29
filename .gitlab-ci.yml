@@ -32,7 +32,7 @@ build:
       paths:
          - out
 
-.deploy_template:
+.deploy_template: &deploy_template
    resource_group: deploy
    stage: deploy
    before_script:
