@@ -68,12 +68,15 @@ const RegisterForm = () => {
       setLoading(true);
 
       novellyApi
-         .post('/register', data)
+         .post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/register`, data)
          .then((res) => {
             if (res.data.message) {
                setMessage(res.data.message);
             } else {
-               router.push({ pathname: '/register/success', query: { mail: data.mail } });
+               router.push({
+                  pathname: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/register/success`,
+                  query: { mail: data.mail },
+               });
             }
          })
          .catch((err) => console.log(err))
