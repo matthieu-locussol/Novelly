@@ -3,9 +3,8 @@ import { Box, Container, Typography } from '@material-ui/core';
 
 import Layout from '@components/Layout/Layout';
 import RegisterForm from '@components/Auth/RegisterForm';
-import AlreadyRegistered from '@components/Auth/AlreadyRegistered';
 
-const Index = () => {
+const Register = () => {
    return (
       <Layout>
          <Container maxWidth="md">
@@ -18,10 +17,9 @@ const Index = () => {
                </Typography>
             </Box>
             <RegisterForm />
-            <AlreadyRegistered />
          </Container>
       </Layout>
    );
 };
 
-export default Index;
+export default Register;

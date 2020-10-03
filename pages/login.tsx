@@ -5,7 +5,7 @@ import Layout from '@components/Layout/Layout';
 import LoginForm from '@components/Auth/LoginForm';
 import NotRegistered from '@components/Auth/NotRegistered';
 
-const Index = () => {
+const Login = () => {
    return (
       <Layout>
          <Container maxWidth="md">
@@ -24,4 +24,4 @@ const Index = () => {
    );
 };
 
-export default Index;
+export default Login;

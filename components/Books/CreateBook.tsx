@@ -39,9 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
       content: {
          display: 'flex',
          flexDirection: 'column',
-         '& > *': {
-            marginTop: theme.spacing(2),
-         },
       },
       appBar: {
          position: 'relative',
@@ -49,6 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
       title: {
          marginLeft: theme.spacing(2),
          flex: 1,
+      },
+      spacing: {
+         marginTop: theme.spacing(2),
       },
    }),
 );
@@ -98,6 +98,7 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                   rows={4}
                   variant="outlined"
                   inputRef={register}
+                  className={classes.spacing}
                />
                <FormControlLabel
                   control={

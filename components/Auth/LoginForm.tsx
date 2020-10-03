@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Container, Button, TextField, Checkbox, FormControlLabel } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
+import novellyApi from '@config/api/novelly';
+
 interface ILoginData {
    mail: string;
    password: string;
@@ -26,6 +28,11 @@ const LoginForm = () => {
 
    const onSubmit = (data: ILoginData) => {
       console.log(data);
+
+      novellyApi
+         .post('/login', data)
+         .then((res) => console.log(res.data))
+         .catch((err) => console.log(err));
    };
 
    return (

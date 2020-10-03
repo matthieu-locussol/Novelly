@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/router';
 import {
    Container,
    Button,
@@ -7,17 +8,22 @@ import {
    Checkbox,
    FormControlLabel,
    Link,
+   CircularProgress,
    Typography,
 } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import ModalEULA from '@components/ModalEULA';
+import Notification, { MessageType } from '@components/Notification';
+import AlreadyRegistered from '@components/Auth/AlreadyRegistered';
+import novellyApi from '@config/api/novelly';
 
 interface IRegisterData {
    mail: string;
    pseudonym: string;
    password: string;
    confirmation: string;
+   eula: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,13 +35,28 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2),
          },
       },
+      container: {
+         marginBottom: theme.spacing(2),
+      },
+      loader: {
+         display: 'flex',
+         justifyContent: 'center',
+         color: theme.palette.primary.main,
+      },
+      error: {
+         marginBottom: theme.spacing(2),
+      },
    }),
 );
 
 const RegisterForm = () => {
+   const router = useRouter();
    const classes = useStyles();
    const { register, handleSubmit } = useForm();
    const [openEULA, setOpenEULA] = useState(false);
+   const [loading, setLoading] = useState(false);
+   const [message, setMessage] = useState<MessageType>(null);
+   const [data, setData] = useState<IRegisterData | null>(null);
 
    const showEULA = (e: any) => {
       e.preventDefault();
@@ -43,11 +64,33 @@ const RegisterForm = () => {
    };
 
    const onSubmit = (data: IRegisterData) => {
-      console.log(data);
+      setData(data);
+      setLoading(true);
+
+      novellyApi
+         .post('/register', data)
+         .then((res) => {
+            if (res.data.message) {
+               setMessage(res.data.message);
+            } else {
+               router.push({ pathname: '/register/success', query: { mail: data.mail } });
+            }
+         })
+         .catch((err) => console.log(err))
+         .finally(() => setLoading(false));
    };
 
+   if (loading) {
+      return (
+         <Container maxWidth="sm" className={classes.loader}>
+            <CircularProgress size={64} />
+         </Container>
+      );
+   }
+
    return (
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" className={classes.container}>
+         {message && <Notification message={message} setMessage={setMessage} />}
          <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
             <TextField
                required
@@ -56,8 +99,16 @@ const RegisterForm = () => {
                label="E-mail"
                variant="outlined"
                inputRef={register}
+               defaultValue={data && data.mail}
             />
-            <TextField required name="pseudonym" label="Pseudonym" variant="outlined" inputRef={register} />
+            <TextField
+               required
+               name="pseudonym"
+               label="Pseudonym"
+               variant="outlined"
+               inputRef={register}
+               defaultValue={data && data.pseudonym}
+            />
             <TextField
                required
                name="password"
@@ -65,6 +116,7 @@ const RegisterForm = () => {
                label="Password"
                variant="outlined"
                inputRef={register}
+               defaultValue={data && data.password}
             />
             <TextField
                required
@@ -73,6 +125,7 @@ const RegisterForm = () => {
                label="Confirmation"
                variant="outlined"
                inputRef={register}
+               defaultValue={data && data.confirmation}
             />
             <FormControlLabel
                control={<Checkbox required name="eula" color="primary" inputRef={register} />}
@@ -86,6 +139,7 @@ const RegisterForm = () => {
                Create an account
             </Button>
          </form>
+         <AlreadyRegistered />
          <ModalEULA open={openEULA} onClose={() => setOpenEULA(false)} />
       </Container>
    );
