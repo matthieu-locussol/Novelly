@@ -67,8 +67,6 @@ const RegisterForm = () => {
       setData(data);
       setLoading(true);
 
-      api.get('/books').then((res) => console.log(res));
-
       api.post('/register', data)
          .then((res) => {
             if (res.data.message) {
