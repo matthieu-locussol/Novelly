@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import {
    Container,
    Button,
@@ -16,7 +16,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ModalEULA from '@components/ModalEULA';
 import Notification, { MessageType } from '@components/Notification';
 import AlreadyRegistered from '@components/Auth/AlreadyRegistered';
-import novellyApi from '@config/api/novelly';
+// import novellyApi from '@config/api/novelly';
 
 interface IRegisterData {
    mail: string;
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const RegisterForm = () => {
-   const router = useRouter();
+   // const router = useRouter();
    const classes = useStyles();
    const { register, handleSubmit } = useForm();
    const [openEULA, setOpenEULA] = useState(false);
@@ -67,20 +67,20 @@ const RegisterForm = () => {
       setData(data);
       setLoading(true);
 
-      novellyApi
-         .post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/register`, data)
-         .then((res) => {
-            if (res.data.message) {
-               setMessage(res.data.message);
-            } else {
-               router.push({
-                  pathname: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/register/success`,
-                  query: { mail: data.mail },
-               });
-            }
-         })
-         .catch((err) => console.log(err))
-         .finally(() => setLoading(false));
+      // novellyApi
+      //    .post(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/register`, data)
+      //    .then((res) => {
+      //       if (res.data.message) {
+      //          setMessage(res.data.message);
+      //       } else {
+      //          router.push({
+      //             pathname: `${process.env.NEXT_PUBLIC_API_ENDPOINT}/register/success`,
+      //             query: { mail: data.mail },
+      //          });
+      //       }
+      //    })
+      //    .catch((err) => console.log(err))
+      //    .finally(() => setLoading(false));
    };
 
    if (loading) {
