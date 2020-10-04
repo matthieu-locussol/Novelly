@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-   baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+   baseURL: 'https://fcbdkzwh87.execute-api.eu-west-3.amazonaws.com/api/staging',
    headers: {
       Accept: 'application/json',
    },
