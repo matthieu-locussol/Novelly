@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Container, Button, TextField, Checkbox, FormControlLabel } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import {
+   Container,
+   Button,
+   TextField,
+   Checkbox,
+   FormControlLabel,
+   CircularProgress,
+} from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-// import novellyApi from '@config/api/novelly';
+import NotRegistered from '@components/Auth/NotRegistered';
+import Notification, { MessageType } from '@components/Notification';
+import { loginUser } from '@config/auth';
+import { useUser } from '@contexts/UserProvider';
 
-interface ILoginData {
+export interface ILoginData {
    mail: string;
    password: string;
+   remember: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,35 +31,82 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: theme.spacing(2),
          },
       },
+      loader: {
+         display: 'flex',
+         justifyContent: 'center',
+         color: theme.palette.primary.main,
+      },
    }),
 );
 
 const LoginForm = () => {
+   const router = useRouter();
    const classes = useStyles();
+   const { setUser } = useUser();
    const { register, handleSubmit } = useForm();
+   const [loading, setLoading] = useState(false);
+   const [message, setMessage] = useState<MessageType>(null);
+   const [data, setData] = useState<ILoginData | null>(null);
 
    const onSubmit = (data: ILoginData) => {
-      console.log(data);
+      setData(data);
+      setLoading(true);
 
-      // novellyApi
-      //    .post('/login', data)
-      //    .then((res) => console.log(res.data))
-      //    .catch((err) => console.log(err));
+      loginUser(data)
+         .then((res) => {
+            //@ts-ignore
+            if (res?.id) {
+               setUser(res);
+               router.replace('/');
+            } else {
+               //@ts-ignore
+               setMessage(res);
+            }
+         })
+         .catch((err) => console.log(err))
+         .finally(() => setLoading(false));
    };
+
+   if (loading) {
+      return (
+         <Container maxWidth="sm" className={classes.loader}>
+            <CircularProgress size={64} />
+         </Container>
+      );
+   }
 
    return (
       <Container maxWidth="sm">
+         {message && <Notification message={message} setMessage={setMessage} />}
          <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
-            <TextField required name="mail" label="E-mail" variant="outlined" inputRef={register} />
-            <TextField required name="password" label="Password" variant="outlined" inputRef={register} />
+            <TextField
+               required
+               name="mail"
+               label="E-mail"
+               variant="outlined"
+               inputRef={register}
+               defaultValue={data ? data.mail : undefined}
+            />
+            <TextField
+               required
+               name="password"
+               type="password"
+               label="Password"
+               variant="outlined"
+               inputRef={register}
+               defaultValue={data ? data.password : undefined}
+            />
             <FormControlLabel
-               control={<Checkbox name="remember" color="primary" inputRef={register} />}
+               control={
+                  <Checkbox name="remember" color="primary" inputRef={register} defaultChecked={true} />
+               }
                label="Remember me"
             />
             <Button type="submit" color="primary" variant="contained">
                Login
             </Button>
          </form>
+         <NotRegistered />
       </Container>
    );
 };

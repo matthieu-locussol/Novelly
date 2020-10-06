@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Divider, Drawer, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import {
+   Divider,
+   Drawer,
+   IconButton,
+   List,
+   ListItem,
+   ListItemText,
+   Menu,
+   MenuItem,
+   CircularProgress,
+} from '@material-ui/core';
 import {
    HomeRounded as HomeIcon,
    AccountCircle as AccountIcon,
@@ -14,6 +25,7 @@ import DrawerEditor from '@components/Layout/DrawerEditor';
 import BugReport from '@components/BugReport/BugReport';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
+import { useUser } from '@contexts/UserProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -62,8 +74,30 @@ interface HeaderEditorProps {
 }
 
 const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
+   const router = useRouter();
    const classes = useStyles();
+   const { user, setUser } = useUser();
    const [open, setOpen] = useState(false);
+   const [loading, setLoading] = useState(false);
+   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorEl(event.currentTarget);
+   };
+
+   const handleClose = () => {
+      setAnchorEl(null);
+   };
+
+   const logout = () => {
+      setLoading(true);
+      handleClose();
+      user?.logout().then(() => {
+         setUser(null);
+         setLoading(false);
+         router.push('/');
+      });
+   };
 
    const toggleDrawer = () => {
       const newValue = !open;
@@ -113,12 +147,21 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
             </div>
             <Divider className={classes.divider} orientation="horizontal" />
             <div className={classes.buttonBottom}>
-               <Link href="/login">
-                  <IconButton color="inherit">
-                     <AccountIcon />
-                  </IconButton>
-               </Link>
+               <IconButton color="inherit" onClick={handleClick} disabled={loading}>
+                  {loading ? <CircularProgress color="inherit" size={24} /> : <AccountIcon />}
+               </IconButton>
             </div>
+            <Menu
+               id="lang-picker-menu"
+               anchorEl={anchorEl}
+               keepMounted
+               open={Boolean(anchorEl)}
+               onClose={handleClose}>
+               <Link href="/settings">
+                  <MenuItem onClick={handleClose}>Settings</MenuItem>
+               </Link>
+               <MenuItem onClick={logout}>Logout</MenuItem>
+            </Menu>
          </Drawer>
          <DrawerEditor open={open} onClose={() => setOpen(false)}>
             {sections && (

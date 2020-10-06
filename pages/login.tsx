@@ -3,7 +3,6 @@ import { Box, Container, Typography } from '@material-ui/core';
 
 import Layout from '@components/Layout/Layout';
 import LoginForm from '@components/Auth/LoginForm';
-import NotRegistered from '@components/Auth/NotRegistered';
 
 const Login = () => {
    return (
@@ -18,7 +17,6 @@ const Login = () => {
                </Typography>
             </Box>
             <LoginForm />
-            <NotRegistered />
          </Container>
       </Layout>
    );

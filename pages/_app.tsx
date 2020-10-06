@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { LangProvider } from '@contexts/LangProvider';
 import { TextProvider } from '@contexts/TextProvider';
+import { UserProvider } from '@contexts/UserProvider';
 import { ThemeProvider } from '@contexts/ThemeProvider';
 
 export default function MyApp(props: AppProps) {
@@ -22,14 +23,16 @@ export default function MyApp(props: AppProps) {
             <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
             <link rel="icon" type="image/png" href="/logo.png" />
          </Head>
-         <LangProvider>
-            <TextProvider>
-               <ThemeProvider>
-                  <CssBaseline />
-                  <Component {...pageProps} />
-               </ThemeProvider>
-            </TextProvider>
-         </LangProvider>
+         <UserProvider>
+            <LangProvider>
+               <TextProvider>
+                  <ThemeProvider>
+                     <CssBaseline />
+                     <Component {...pageProps} />
+                  </ThemeProvider>
+               </TextProvider>
+            </LangProvider>
+         </UserProvider>
       </React.Fragment>
    );
 }

@@ -10,7 +10,7 @@ export type MessageType = {
 interface NotificationProps {
    message: MessageType;
    setMessage: (message: MessageType) => void;
-   timeout?: number;
+   timeout?: number | null;
 }
 
 const Notification = ({ message, setMessage, timeout = 5000 }: NotificationProps) => (

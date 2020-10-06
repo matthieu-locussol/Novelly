@@ -16,9 +16,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ModalEULA from '@components/ModalEULA';
 import Notification, { MessageType } from '@components/Notification';
 import AlreadyRegistered from '@components/Auth/AlreadyRegistered';
-import api from '@config/api';
+import { registerUser } from '@config/auth';
 
-interface IRegisterData {
+export interface IRegisterData {
    mail: string;
    pseudonym: string;
    password: string;
@@ -67,10 +67,10 @@ const RegisterForm = () => {
       setData(data);
       setLoading(true);
 
-      api.post('/register', data)
+      registerUser(data)
          .then((res) => {
-            if (res.data.message) {
-               setMessage(res.data.message);
+            if (res?.type !== 'success') {
+               setMessage(res);
             } else {
                router.push({
                   pathname: '/register/success',
