@@ -71,6 +71,7 @@ const RegisterForm = () => {
          .then((res) => {
             if (res?.type !== 'success') {
                setMessage(res);
+               setLoading(false);
             } else {
                router.push({
                   pathname: '/register/success',
@@ -78,8 +79,10 @@ const RegisterForm = () => {
                });
             }
          })
-         .catch((err) => console.log(err))
-         .finally(() => setLoading(false));
+         .catch((error) => {
+            console.log(error);
+            setLoading(false);
+         });
    };
 
    if (loading) {

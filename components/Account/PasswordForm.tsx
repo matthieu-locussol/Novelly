@@ -38,7 +38,7 @@ const SettingsForm = () => {
                color="primary"
                name="password"
                type="password"
-               label="Password"
+               placeholder="New password"
                variant="outlined"
                inputRef={register}
             />

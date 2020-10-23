@@ -1,27 +1,34 @@
 import React from 'react';
 import Link from 'next/link';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { Card, CardActionArea, CardContent, Typography } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, Divider, Typography } from '@material-ui/core';
+import { LockRounded as PrivateIcon } from '@material-ui/icons';
+import BookDto from '@datatypes/Book';
+import { formatDate } from '@config/utils';
 
 interface BookProps {
-   title: string;
-   description: string;
-   createdAt: string;
-   updatedAt: string;
+   book: BookDto;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
       root: {
-         minWidth: 275,
-         maxWidth: 280,
+         width: 280,
+         height: 195,
          '&:hover': {
             borderColor: theme.palette.primary.main,
             color: theme.palette.primary.main,
          },
       },
       title: {
-         fontSize: 14,
+         display: 'flex',
+         alignItems: 'center',
+         justifyContent: 'space-between',
+      },
+      content: {
+         height: 195,
+         display: 'flex',
+         flexDirection: 'column',
       },
       pos: {
          marginBottom: 12,
@@ -30,34 +37,52 @@ const useStyles = makeStyles((theme: Theme) =>
          fontSize: '14px',
          marginTop: 12,
       },
+      divider: {
+         display: 'flex',
+         marginTop: 'auto',
+         background: 'none',
+      },
+      noDescription: {
+         color: theme.palette.text.secondary,
+         fontStyle: 'italic',
+      },
    }),
 );
 
-const Book = ({ title, description, createdAt, updatedAt }: BookProps) => {
+const Book = ({ book }: BookProps) => {
    const classes = useStyles();
-   const shortDescription = description.length > 80 ? `${description.slice(0, 80)}...` : description;
+   const shortDescription =
+      book.description.length > 80 ? `${book.description.slice(0, 80)}...` : book.description;
 
    return (
-      <Card className={classes.root} variant="outlined">
-         <Link href="/editor">
+      <Link href={`/editor/${book.id}`}>
+         <Card className={classes.root} variant="outlined">
             <CardActionArea>
-               <CardContent>
-                  <Typography variant="h5" component="h2">
-                     {title}
+               <CardContent className={classes.content}>
+                  <Typography variant="h5" component="h2" className={classes.title}>
+                     {book.title}
+                     {book.private && <PrivateIcon />}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                     {createdAt}
+                     {formatDate(book.createdAt)}
                   </Typography>
-                  <Typography variant="body2" component="p">
-                     {shortDescription}
-                  </Typography>
+                  {shortDescription ? (
+                     <Typography variant="body2" component="p">
+                        {shortDescription}
+                     </Typography>
+                  ) : (
+                     <Typography variant="body2" component="p" className={classes.noDescription}>
+                        No description yet.
+                     </Typography>
+                  )}
+                  <Divider className={classes.divider} />
                   <Typography className={classes.top} color="textSecondary">
-                     Last edited: {updatedAt}
+                     Last edited: {formatDate(book.updatedAt)}
                   </Typography>
                </CardContent>
             </CardActionArea>
-         </Link>
-      </Card>
+         </Card>
+      </Link>
    );
 };
 

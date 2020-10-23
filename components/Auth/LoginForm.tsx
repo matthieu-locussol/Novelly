@@ -61,10 +61,13 @@ const LoginForm = () => {
             } else {
                //@ts-ignore
                setMessage(res);
+               setLoading(false);
             }
          })
-         .catch((err) => console.log(err))
-         .finally(() => setLoading(false));
+         .catch((error) => {
+            console.log(error);
+            setLoading(false);
+         });
    };
 
    if (loading) {

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -15,9 +16,12 @@ import {
    FormControlLabel,
    Typography,
    useMediaQuery,
+   CircularProgress,
 } from '@material-ui/core';
 import { CloseRounded as CloseIcon } from '@material-ui/icons';
 
+import api from '@config/api';
+import { useUser } from '@contexts/UserProvider';
 import { useTheme } from '@contexts/ThemeProvider';
 
 interface CreateBookProps {
@@ -50,17 +54,43 @@ const useStyles = makeStyles((theme: Theme) =>
       spacing: {
          marginTop: theme.spacing(2),
       },
+      loader: {
+         color: 'inherit',
+      },
    }),
 );
 
 const CreateBook = ({ open, onClose }: CreateBookProps) => {
+   const router = useRouter();
    const classes = useStyles();
+   const { user } = useUser();
    const { muiTheme } = useTheme();
    const { register, handleSubmit } = useForm();
+   const [loading, setLoading] = useState(false);
    const fullScreen = useMediaQuery(muiTheme.breakpoints.down('sm'));
 
    const onSubmit = (data: IBookData) => {
-      console.log(data);
+      if (user) {
+         setLoading(true);
+
+         const finalData = {
+            author: user?.id,
+            ...data,
+         };
+
+         api.post('/books', {
+            type: 'createBook',
+            data: finalData,
+         })
+            .then((response) => {
+               const bookId = response.data.body.ref['@ref'].id;
+               router.replace(`/editor/${bookId}`);
+            })
+            .catch((error) => {
+               console.log(error);
+               setLoading(false);
+            });
+      }
    };
 
    return (
@@ -101,9 +131,7 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                   className={classes.spacing}
                />
                <FormControlLabel
-                  control={
-                     <Checkbox required name="private" color="primary" inputRef={register} defaultChecked />
-                  }
+                  control={<Checkbox name="private" color="primary" inputRef={register} defaultChecked />}
                   label={<Typography>Private</Typography>}
                />
             </DialogContent>
@@ -112,8 +140,8 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                   <Button onClick={onClose} color="inherit">
                      Cancel
                   </Button>
-                  <Button type="submit" color="primary" variant="contained">
-                     Create
+                  <Button disabled={loading} type="submit" color="primary" variant="contained">
+                     {loading ? <CircularProgress size={18} className={classes.loader} /> : 'Create'}
                   </Button>
                </DialogActions>
             )}

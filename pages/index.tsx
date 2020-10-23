@@ -3,6 +3,7 @@ import { Box, Container, Typography, CircularProgress } from '@material-ui/core'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Notification, { MessageType } from '@components/Notification';
+import Showcase from '@components/Home/Showcase';
 import Layout from '@components/Layout/Layout';
 import { confirmUser } from '@config/auth';
 
@@ -12,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) =>
          display: 'flex',
          justifyContent: 'center',
          color: theme.palette.primary.main,
+      },
+      italic: {
+         fontStyle: 'italic',
       },
    }),
 );
@@ -28,8 +32,12 @@ const Index = () => {
          const token = window.location.hash.split('=')[1];
 
          confirmUser(token)
-            .then((res) => setMessage(res))
-            .catch((err) => console.log(err))
+            .then((res) => {
+               setMessage(res);
+            })
+            .catch((error) => {
+               console.log(error);
+            })
             .finally(() => {
                history.replaceState(null, '', ' ');
                setLoading(false);
@@ -50,8 +58,26 @@ const Index = () => {
                {message && <Notification message={message} setMessage={setMessage} timeout={null} />}
                <Box my={4}>
                   <Typography variant="h4" component="h1" gutterBottom>
-                     What is Novelly?
+                     Novelly
                   </Typography>
+                  <Typography variant="body1" component="h2" gutterBottom>
+                     Welcome ! 😋
+                  </Typography>
+                  <Typography variant="body1" component="h2" gutterBottom>
+                     Novelly is a free online writing platform accessible to everyone. Its purpose is to
+                     provide a pleasant environment and writing tools. The app is still in development and
+                     some features may not yet be available. Do not hesitate to notify me of any bug or
+                     feature request.
+                  </Typography>
+                  <Typography variant="body1" component="h2" className={classes.italic}>
+                     Good visit on Novelly!
+                  </Typography>
+               </Box>
+               <Box my={4}>
+                  <Typography variant="h4" component="h1" gutterBottom>
+                     Features
+                  </Typography>
+                  <Showcase />
                </Box>
             </Container>
          )}

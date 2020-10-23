@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AppBar, Divider, Toolbar, IconButton, Menu, MenuItem, CircularProgress } from '@material-ui/core';
@@ -65,10 +65,6 @@ const Header = () => {
          router.push('/');
       });
    };
-
-   useEffect(() => {
-      console.log(user);
-   }, [user]);
 
    return (
       <div className={classes.root}>

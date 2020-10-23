@@ -23,6 +23,7 @@
          "@themes/*": ["themes/*"],
          "@locales/*": ["locales/*"],
          "@contexts/*": ["contexts/*"],
+         "@datatypes/*": ["datatypes/*"],
          "@components/*": ["components/*"]
       }
    },

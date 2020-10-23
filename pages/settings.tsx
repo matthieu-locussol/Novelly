@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       avatar: {
          color: theme.palette.text.primary,
-         border: `1px solid ${theme.palette.text.primary}`,
+         border: `1px solid ${theme.palette.primary.dark}`,
          backgroundColor: theme.palette.background.default,
          width: theme.spacing(6),
          height: theme.spacing(6),
