@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       italic: {
          fontStyle: 'italic',
+         fontWeight: 'bold',
       },
    }),
 );
@@ -61,7 +62,7 @@ const Index = () => {
                      Novelly
                   </Typography>
                   <Typography variant="body1" component="h2" gutterBottom>
-                     Welcome ! 😋
+                     Welcome ! 😄
                   </Typography>
                   <Typography variant="body1" component="h2" gutterBottom>
                      Novelly is a free online writing platform accessible to everyone. Its purpose is to
