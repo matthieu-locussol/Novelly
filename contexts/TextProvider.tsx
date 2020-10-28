@@ -2,28 +2,29 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 
 import { useLang } from '@contexts/LangProvider';
 
-import de from '@locales/de.json';
-import en from '@locales/en.json';
-import es from '@locales/es.json';
-import fr from '@locales/fr.json';
-import ja from '@locales/ja.json';
-import pt from '@locales/pt.json';
-import ru from '@locales/ru.json';
-import zh from '@locales/zh.json';
+import de from '@locales/de';
+import en from '@locales/en';
+import es from '@locales/es';
+import fr from '@locales/fr';
+import ja from '@locales/ja';
+import pt from '@locales/pt';
+import ru from '@locales/ru';
+import zh from '@locales/zh';
+import { Locales } from '@locales/index';
 
 const TEXTS = {
-   de: de,
-   en: en,
-   es: es,
-   fr: fr,
-   ja: ja,
-   pt: pt,
-   ru: ru,
-   zh: zh,
+   de,
+   en,
+   es,
+   fr,
+   ja,
+   pt,
+   ru,
+   zh,
 };
 
 interface TextContextInterface {
-   texts: any;
+   texts: Locales;
 }
 
 interface TextProviderInterface {
