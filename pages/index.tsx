@@ -6,7 +6,6 @@ import Notification, { MessageType } from '@components/Notification';
 import Showcase from '@components/Home/Showcase';
 import Layout from '@components/Layout/Layout';
 import { confirmUser } from '@config/auth';
-import { useText } from '../contexts/TextProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -23,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Index = () => {
-   const { texts } = useText();
    const classes = useStyles();
    const [loading, setLoading] = useState(false);
    const [message, setMessage] = useState<MessageType>(null);
@@ -61,7 +59,7 @@ const Index = () => {
                {message && <Notification message={message} setMessage={setMessage} timeout={null} />}
                <Box my={4}>
                   <Typography variant="h4" component="h1" gutterBottom>
-                     Novelly - {texts.hello}
+                     Novelly
                   </Typography>
                   <Typography variant="body1" component="h2" gutterBottom>
                      Welcome ! 😄
