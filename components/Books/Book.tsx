@@ -52,19 +52,16 @@ const useStyles = makeStyles((theme: Theme) =>
 const Book = ({ book }: BookProps) => {
    const classes = useStyles();
    const shortDescription =
-      book.description.length > 80 ? `${book.description.slice(0, 80)}...` : book.description;
+      book.description.length > 80 ? `${book.description.slice(0, 120)}...` : book.description;
 
    return (
-      <Link href={`/editor/${book.id}`}>
+      <Link href="/book/[bookId]" as={`/book/${book.id}`}>
          <Card className={classes.root} variant="outlined">
             <CardActionArea>
                <CardContent className={classes.content}>
                   <Typography variant="h5" component="h2" className={classes.title}>
                      {book.title}
                      {book.private && <PrivateIcon />}
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                     {formatDate(book.createdAt)}
                   </Typography>
                   {shortDescription ? (
                      <Typography variant="body2" component="p">
@@ -77,7 +74,7 @@ const Book = ({ book }: BookProps) => {
                   )}
                   <Divider className={classes.divider} />
                   <Typography className={classes.top} color="textSecondary">
-                     Last edited: {formatDate(book.updatedAt)}
+                     Created on: {formatDate(book.createdAt)}
                   </Typography>
                </CardContent>
             </CardActionArea>

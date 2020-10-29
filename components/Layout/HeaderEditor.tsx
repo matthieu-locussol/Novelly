@@ -26,6 +26,7 @@ import BugReport from '@components/BugReport/BugReport';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
 import { useUser } from '@contexts/UserProvider';
+import Section from '@datatypes/Section';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -65,11 +66,21 @@ const useStyles = makeStyles((theme: Theme) =>
          paddingLeft: theme.spacing(4),
          paddingRight: theme.spacing(4),
       },
+      active: {
+         color: theme.palette.secondary.contrastText,
+         backgroundColor: theme.palette.secondary.light,
+         paddingLeft: theme.spacing(4),
+         paddingRight: theme.spacing(4),
+      },
+      activeText: {
+         fontWeight: 500,
+         fontStyle: 'italic',
+      },
    }),
 );
 
 interface HeaderEditorProps {
-   sections?: any[];
+   sections?: Section[];
    callback?: any;
 }
 
@@ -166,13 +177,26 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
          <DrawerEditor open={open} onClose={() => setOpen(false)}>
             {sections && (
                <List>
-                  {sections.map((section, index) => (
-                     <Link href={section.link} key={index}>
-                        <ListItem button className={classes.listitem}>
-                           <ListItemText primary={section.name} />
-                        </ListItem>
-                     </Link>
-                  ))}
+                  {sections.map((section, index) => {
+                     const link = `/editor/${section.id}`;
+                     const active = router.asPath === link;
+
+                     return (
+                        <Link href="/editor/[sectionId]" as={link} key={index}>
+                           <ListItem
+                              button
+                              disabled={active}
+                              className={active ? classes.active : classes.listitem}>
+                              <ListItemText
+                                 primary={section.title}
+                                 primaryTypographyProps={{
+                                    className: active ? classes.activeText : '',
+                                 }}
+                              />
+                           </ListItem>
+                        </Link>
+                     );
+                  })}
                </List>
             )}
          </DrawerEditor>

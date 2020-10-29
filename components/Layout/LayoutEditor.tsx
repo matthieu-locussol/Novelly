@@ -5,15 +5,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import HeaderMobile from '@components/Layout/HeaderMobile';
 import HeaderEditor from '@components/Layout/HeaderEditor';
 import { useTheme } from '@contexts/ThemeProvider';
-
-//@ts-ignore
-const getSections = async (bookId: number) => [
-   { link: '/', name: 'Section  1' },
-   { link: '/', name: 'Section  2' },
-   { link: '/', name: 'Section  3' },
-   { link: '/', name: 'Section  4' },
-   { link: '/', name: 'Section  5' },
-];
+import api from '@config/api';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -24,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface LayoutEditorProps {
-   bookId: number;
+   bookId: string;
    children: any;
    callback?: any;
 }
@@ -36,9 +28,12 @@ const LayoutEditor = ({ bookId, children, callback }: LayoutEditorProps) => {
    const [sections, setSections] = useState<any[] | undefined>(undefined);
 
    useEffect(() => {
-      getSections(bookId)
+      api.post('/sections', {
+         type: 'sectionsByBookId',
+         bookId,
+      })
          .then((sections) => {
-            setSections(sections);
+            setSections(sections.data.body);
          })
          .catch((error) => {
             console.log(error);

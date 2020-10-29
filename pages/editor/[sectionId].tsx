@@ -1,4 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { GetStaticPaths } from 'next';
+import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 import { EditorState } from 'draft-js';
 import { Box, Container, CircularProgress, useMediaQuery } from '@material-ui/core';
 import {
@@ -13,6 +16,17 @@ import LayoutEditor from '@components/Layout/LayoutEditor';
 import WritingMenu from '@components/Editor/WritingMenu';
 import SaveMenu from '@components/Editor/SaveMenu';
 import { useTheme } from '@contexts/ThemeProvider';
+
+import api from '@config/api';
+import Section from '@datatypes/Section';
+
+interface PathsProps extends ParsedUrlQuery {
+   sectionId: string;
+}
+
+interface EditorProps {
+   section: Section;
+}
 
 const AUTOSAVE_DELAY = 1000;
 
@@ -30,7 +44,8 @@ const controls = [
    'editorFullscreen',
 ];
 
-const Editor = () => {
+const Editor = ({ section }: EditorProps) => {
+   const router = useRouter();
    const { muiTheme } = useTheme();
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
    const [fullSize, setFullSize] = useState(false);
@@ -97,49 +112,52 @@ const Editor = () => {
       window.localStorage.setItem('editor', data);
    };
 
-   // Change this function to retrieve the book data from FaunaDB
-   const fetchCloudContent = async () => {
-      const sleep = (ms: number) => {
-         return new Promise((resolve) => setTimeout(resolve, ms));
-      };
+   const fetchCloudContent = async (sectionId: string) => {
+      const response = await api.post('/contents', {
+         type: 'contentBySectionId',
+         sectionId,
+      });
 
-      // We need to fetch data here by awaiting
-      // Data then have to be set in "remoteValue" => corresponds to cloud content
-      await sleep(Math.random() * 3000 + 2000); // 2s to 5s
-      const content = getValue();
+      const content = response.data.body[0].content;
       setRemoteValue(content);
 
-      const isDifferent = content !== getValue();
-      setCanCloudSave(isDifferent);
       setLoading(false);
+
+      return content;
    };
 
    const shouldSave = () => remoteValue !== undefined && !(getValue() === remoteValue);
 
-   const initialize = () => {
-      setInitialValue(getValue());
+   const initialize = (remoteContent: string) => {
+      setInitialValue(remoteContent);
    };
 
    const save = (data: string) => {
-      if (getValue() !== data) {
-         console.log('Data saved!');
+      const mustSave = getValue() !== data;
+
+      if (mustSave) {
          setValue(data);
-         setCanCloudSave(true);
       }
+
+      setCanCloudSave(canCloudSave || mustSave);
    };
 
    const saveCloud = () => {
       if (shouldSave()) {
-         console.log('Saving to FaunaDB.');
-
          editorRef.current?.save();
          const content = getValue();
 
-         // Send content to FaunaDB
-         // Then =>
-         //   Updates the "remoteValue" corresponding to the cloud value
-         //   Allow the new cloud save after a delay to prevent spam-save
-         setRemoteValue(content);
+         api.post('/contents', {
+            type: 'updateContent',
+            sectionId: section?.id,
+            content,
+         })
+            .then(() => {
+               setRemoteValue(content);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
       }
 
       setCanCloudSave(false);
@@ -150,21 +168,29 @@ const Editor = () => {
       return editorState;
    };
 
-   const saveCron = () => {
+   const saveCron = () =>
       window.setTimeout(() => {
          editorRef.current?.save();
          saveCron();
       }, AUTOSAVE_DELAY);
-   };
 
    useEffect(() => {
-      fetchCloudContent();
-      initialize();
-      saveCron();
-   }, []);
+      let cronId: number | undefined = undefined;
+
+      setLoading(true);
+      fetchCloudContent(section?.id).then((remoteContent) => {
+         initialize(remoteContent);
+         cronId = saveCron();
+      });
+
+      return () => {
+         window.clearTimeout(cronId);
+         saveCloud();
+      };
+   }, [router.query.sectionId]);
 
    return (
-      <LayoutEditor bookId={1} callback={setIsOpen}>
+      <LayoutEditor bookId={section?.bookId} callback={setIsOpen}>
          <Container maxWidth="md" className={classes.editor}>
             <Box my={1} className={classes.box} onClick={() => focus()}>
                {loading ? (
@@ -204,6 +230,40 @@ const Editor = () => {
          </Container>
       </LayoutEditor>
    );
+};
+
+export const getStaticPaths: GetStaticPaths<PathsProps> = async () => {
+   const response = await api.post('/sections', { type: 'sectionsIds' });
+
+   const paths = {
+      paths: response.data.body.map((sectionId: string) => ({
+         params: {
+            sectionId,
+         },
+      })),
+      fallback: true,
+   };
+
+   return paths;
+};
+
+type Params = {
+   params: {
+      sectionId: string;
+   };
+};
+
+export const getStaticProps = async ({ params }: Params) => {
+   const response = await api.post('/sections', {
+      type: 'sectionInfos',
+      sectionId: params.sectionId,
+   });
+
+   return {
+      props: {
+         section: response.data.body,
+      },
+   };
 };
 
 export default Editor;

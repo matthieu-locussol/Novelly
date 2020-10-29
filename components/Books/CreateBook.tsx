@@ -84,7 +84,7 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
          })
             .then((response) => {
                const bookId = response.data.body.ref['@ref'].id;
-               router.replace(`/editor/${bookId}`);
+               router.replace(`/book/${bookId}`);
             })
             .catch((error) => {
                console.log(error);

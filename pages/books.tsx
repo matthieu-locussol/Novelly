@@ -37,9 +37,13 @@ const Books = () => {
          api.post('/books', {
             type: 'booksByAuthor',
             authorId: user.id,
-         }).then((response) => {
-            setBooks(response.data.body);
-         });
+         })
+            .then((response) => {
+               setBooks(response.data.body);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
       }
    }, []);
 
