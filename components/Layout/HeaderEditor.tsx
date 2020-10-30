@@ -76,6 +76,11 @@ const useStyles = makeStyles((theme: Theme) =>
          fontWeight: 500,
          fontStyle: 'italic',
       },
+      dividerBook: {
+         color: 'inherit',
+         marginTop: theme.spacing(1),
+         marginBottom: theme.spacing(1),
+      },
    }),
 );
 
@@ -91,6 +96,8 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
    const [open, setOpen] = useState(false);
    const [loading, setLoading] = useState(false);
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+   const isBookPage = router.asPath.startsWith('/book/');
 
    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
@@ -175,8 +182,18 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
             </Menu>
          </Drawer>
          <DrawerEditor open={open} onClose={() => setOpen(false)}>
-            {sections && (
+            {sections && sections.length > 0 && (
                <List>
+                  {!isBookPage && (
+                     <React.Fragment>
+                        <Link href="/book/[bookId]" as={`/book/${sections[0].bookId}`}>
+                           <ListItem button className={classes.listitem}>
+                              <ListItemText primary="Book settings" />
+                           </ListItem>
+                        </Link>
+                        <Divider className={classes.dividerBook} />
+                     </React.Fragment>
+                  )}
                   {sections.map((section, index) => {
                      const link = `/editor/${section.id}`;
                      const active = router.asPath === link;

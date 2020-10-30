@@ -69,7 +69,7 @@ const Editor = ({}: EditorProps) => {
          },
          toolbar: {
             width: !isMobile && fullSize ? `calc(100vw - ${theme.spacing(16)}px)` : '100%',
-            paddingLeft: !isMobile && isOpen ? theme.spacing(24) : 0,
+            paddingLeft: !isMobile && isOpen ? theme.spacing(29) : 0,
             paddingRight: isMobile ? 0 : theme.spacing(8),
             transition: `padding 225ms cubic-bezier(0, 0, 0.2, 1) 0ms`,
             marginBottom: theme.spacing(1),
@@ -82,7 +82,7 @@ const Editor = ({}: EditorProps) => {
             margin: 0,
          },
          rteEditor: {
-            paddingLeft: !isMobile && isOpen ? theme.spacing(24) : 0,
+            paddingLeft: !isMobile && isOpen ? theme.spacing(29) : 0,
             paddingRight: isMobile ? 0 : theme.spacing(8),
             transition: `padding 225ms cubic-bezier(0, 0, 0.2, 1) 0ms`,
          },

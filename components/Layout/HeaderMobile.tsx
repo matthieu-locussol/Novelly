@@ -8,6 +8,7 @@ import {
    IconButton,
    List,
    ListItem,
+   ListItemIcon,
    ListItemText,
    CircularProgress,
    Menu,
@@ -17,6 +18,7 @@ import {
    AccountCircle as AccountIcon,
    MenuRounded as MenuIcon,
    ExitToAppRounded as LoginIcon,
+   SettingsRounded as BookIcon,
 } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -25,6 +27,7 @@ import BugReport from '@components/BugReport/BugReport';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
 import { useUser } from '@contexts/UserProvider';
+import Section from '@datatypes/Section';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -46,8 +49,13 @@ const useStyles = makeStyles((theme: Theme) =>
          marginLeft: theme.spacing(0),
          marginRight: theme.spacing(1),
       },
+      dividerBook: {
+         color: 'inherit',
+         marginBottom: theme.spacing(2),
+      },
       dividerSection: {
          color: 'inherit',
+         marginTop: theme.spacing(2),
          marginBottom: theme.spacing(2),
       },
       toolbar: {
@@ -56,11 +64,20 @@ const useStyles = makeStyles((theme: Theme) =>
       listitem: {
          marginRight: theme.spacing(1),
       },
+      active: {
+         color: theme.palette.secondary.contrastText,
+         backgroundColor: `${theme.palette.secondary.light} !important`,
+         marginRight: theme.spacing(1),
+      },
+      activeText: {
+         fontWeight: 500,
+         fontStyle: 'italic',
+      },
    }),
 );
 
 interface HeaderMobileProps {
-   sections?: any[];
+   sections?: Section[];
 }
 
 const HeaderMobile = ({ sections }: HeaderMobileProps) => {
@@ -138,14 +155,36 @@ const HeaderMobile = ({ sections }: HeaderMobileProps) => {
          <DrawerMobile open={open} user={user} onClose={() => setOpen(false)}>
             {sections && (
                <List>
+                  <Divider className={classes.dividerBook} />
+                  <Link href="/book/[bookId]" as={`/book/${sections[0].bookId}`}>
+                     <ListItem button className={classes.listitem}>
+                        <ListItemIcon>
+                           <BookIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Book settings" />
+                     </ListItem>
+                  </Link>
                   <Divider className={classes.dividerSection} />
-                  {sections.map((section, index) => (
-                     <Link href={section.link} key={index}>
-                        <ListItem button className={classes.listitem}>
-                           <ListItemText primary={section.name} />
-                        </ListItem>
-                     </Link>
-                  ))}
+                  {sections.map((section, index) => {
+                     const link = `/editor/${section.id}`;
+                     const active = router.asPath === link;
+
+                     return (
+                        <Link href="/editor/[sectionId]" as={link} key={index}>
+                           <ListItem
+                              button
+                              disabled={active}
+                              className={active ? classes.active : classes.listitem}>
+                              <ListItemText
+                                 primary={section.title}
+                                 primaryTypographyProps={{
+                                    className: active ? classes.activeText : '',
+                                 }}
+                              />
+                           </ListItem>
+                        </Link>
+                     );
+                  })}
                </List>
             )}
          </DrawerMobile>

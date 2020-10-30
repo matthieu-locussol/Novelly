@@ -1,12 +1,13 @@
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Drawer } from '@material-ui/core';
-import { AddRounded as AddIcon, SettingsRounded as SettingsIcon } from '@material-ui/icons';
+import { AddRounded as AddIcon } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
       drawer: {
          minWidth: 200,
+         maxWidth: 240,
          position: 'absolute',
          left: theme.spacing(8),
          zIndex: 1,
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       toolbar: {
          display: 'flex',
-         justifyContent: 'space-between',
+         justifyContent: 'flex-end',
       },
    }),
 );
@@ -39,9 +40,6 @@ const DrawerEditor = ({ open, onClose, children }: DrawerEditorProps) => {
          onClose={() => onClose()}>
          <AppBar className={classes.appBar} color="secondary">
             <Toolbar className={classes.toolbar}>
-               <IconButton color="inherit" edge="start" aria-label="close">
-                  <SettingsIcon />
-               </IconButton>
                <IconButton color="inherit" edge="end" aria-label="close">
                   <AddIcon />
                </IconButton>

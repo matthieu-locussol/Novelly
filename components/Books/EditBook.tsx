@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -21,17 +20,19 @@ import {
 import { CloseRounded as CloseIcon } from '@material-ui/icons';
 
 import api from '@config/api';
-import { useUser } from '@contexts/UserProvider';
 import { useTheme } from '@contexts/ThemeProvider';
+import Book from '@datatypes/Book';
 
-interface CreateBookProps {
+interface EditBookProps {
+   book: Book;
+   setBook: (book: Book) => void;
    open: boolean;
    onClose: () => void;
 }
 
-interface IBookData {
+interface IBookEditData {
    title: string;
-   description?: string;
+   description: string;
    private: boolean;
 }
 
@@ -63,37 +64,32 @@ const useStyles = makeStyles((theme: Theme) =>
    }),
 );
 
-const CreateBook = ({ open, onClose }: CreateBookProps) => {
-   const router = useRouter();
+const EditBook = ({ book, setBook, open, onClose }: EditBookProps) => {
    const classes = useStyles();
-   const { user } = useUser();
    const { muiTheme } = useTheme();
    const { register, handleSubmit } = useForm();
    const [loading, setLoading] = useState(false);
    const fullScreen = useMediaQuery(muiTheme.breakpoints.down('sm'));
 
-   const onSubmit = (data: IBookData) => {
-      if (user) {
-         setLoading(true);
+   const onSubmit = (data: IBookEditData) => {
+      setLoading(true);
 
-         const finalData = {
-            author: user?.id,
-            ...data,
-         };
-
-         api.post('/books', {
-            type: 'createBook',
-            data: finalData,
-         })
-            .then((response) => {
-               const bookId = response.data.body.ref['@ref'].id;
-               router.replace(`/book/${bookId}`);
-            })
-            .catch((error) => {
-               console.log(error);
-               setLoading(false);
+      api.post('/books', {
+         type: 'updateBook',
+         bookId: book.id,
+         ...data,
+      })
+         .then(() => {
+            setBook({
+               ...book,
+               ...data,
             });
-      }
+            onClose();
+         })
+         .catch((error) => {
+            console.log(error);
+            setLoading(false);
+         });
    };
 
    return (
@@ -105,7 +101,7 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
          aria-describedby="create-book-content"
          open={open}>
          <form onSubmit={handleSubmit(onSubmit)}>
-            {!fullScreen && <DialogTitle id="create-book">Create a new book</DialogTitle>}
+            {!fullScreen && <DialogTitle id="create-book">Update book settings</DialogTitle>}
             {fullScreen && (
                <AppBar className={classes.appBar}>
                   <Toolbar>
@@ -113,28 +109,43 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                         <CloseIcon />
                      </IconButton>
                      <Typography variant="h6" className={classes.title}>
-                        Create a new book
+                        Update book settings
                      </Typography>
                      <Button autoFocus color="inherit" type="submit">
-                        Create
+                        Update
                      </Button>
                   </Toolbar>
                </AppBar>
             )}
             <DialogContent id="create-book-content" className={classes.content}>
-               <TextField required name="title" label="Title" variant="outlined" inputRef={register} />
+               <TextField
+                  required
+                  name="title"
+                  placeholder="Title"
+                  variant="outlined"
+                  inputRef={register}
+                  defaultValue={book.title}
+               />
                <TextField
                   name="description"
-                  label="Description"
+                  placeholder="Description"
                   helperText="A short description of your book."
                   multiline
                   rows={4}
                   variant="outlined"
                   inputRef={register}
                   className={classes.spacing}
+                  defaultValue={book.description}
                />
                <FormControlLabel
-                  control={<Checkbox name="private" color="primary" inputRef={register} defaultChecked />}
+                  control={
+                     <Checkbox
+                        name="private"
+                        color="primary"
+                        inputRef={register}
+                        defaultChecked={book.private}
+                     />
+                  }
                   label={<Typography>Private</Typography>}
                />
             </DialogContent>
@@ -144,7 +155,7 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
                      Cancel
                   </Button>
                   <Button disabled={loading} type="submit" color="primary" variant="contained">
-                     {loading ? <CircularProgress size={18} className={classes.loader} /> : 'Create'}
+                     {loading ? <CircularProgress size={18} className={classes.loader} /> : 'Update'}
                   </Button>
                </DialogActions>
             )}
@@ -153,4 +164,4 @@ const CreateBook = ({ open, onClose }: CreateBookProps) => {
    );
 };
 
-export default CreateBook;
+export default EditBook;

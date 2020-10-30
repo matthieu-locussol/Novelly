@@ -51,8 +51,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Book = ({ book }: BookProps) => {
    const classes = useStyles();
+
+   const shortTitle = book.title.length > 30 ? `${book.title.slice(0, 30)}...` : book.title;
    const shortDescription =
-      book.description.length > 80 ? `${book.description.slice(0, 120)}...` : book.description;
+      book.description.length > 80 ? `${book.description.slice(0, 80)}...` : book.description;
 
    return (
       <Link href="/book/[bookId]" as={`/book/${book.id}`}>
@@ -60,7 +62,7 @@ const Book = ({ book }: BookProps) => {
             <CardActionArea>
                <CardContent className={classes.content}>
                   <Typography variant="h5" component="h2" className={classes.title}>
-                     {book.title}
+                     {shortTitle}
                      {book.private && <PrivateIcon />}
                   </Typography>
                   {shortDescription ? (
