@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { NextPage, NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { Box, CircularProgress, Container, useMediaQuery } from '@material-ui/core';
 import { MenuBook as BookIcon } from '@material-ui/icons';
@@ -14,7 +13,7 @@ import Book from '@datatypes/Book';
 
 interface EditorProps {}
 
-const Editor: NextPage<EditorProps> = ({}) => {
+const Editor = ({}: EditorProps) => {
    const router = useRouter();
    const { muiTheme } = useTheme();
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
@@ -104,10 +103,6 @@ const Editor: NextPage<EditorProps> = ({}) => {
          </Container>
       </LayoutEditor>
    );
-};
-
-Editor.getInitialProps = async ({}: NextPageContext) => {
-   return {};
 };
 
 export default Editor;
