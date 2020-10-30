@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface LayoutEditorProps {
-   bookId: string;
+   bookId: string | undefined;
    children: any;
    callback?: any;
 }
@@ -28,17 +28,19 @@ const LayoutEditor = ({ bookId, children, callback }: LayoutEditorProps) => {
    const [sections, setSections] = useState<any[] | undefined>(undefined);
 
    useEffect(() => {
-      api.post('/sections', {
-         type: 'sectionsByBookId',
-         bookId,
-      })
-         .then((sections) => {
-            setSections(sections.data.body);
+      if (bookId) {
+         api.post('/sections', {
+            type: 'sectionsByBookId',
+            bookId,
          })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, []);
+            .then((sections) => {
+               setSections(sections.data.body);
+            })
+            .catch((error) => {
+               console.log(error);
+            });
+      }
+   }, [bookId]);
 
    return (
       <>

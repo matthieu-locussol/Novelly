@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { GetStaticPaths } from 'next';
-import { ParsedUrlQuery } from 'querystring';
-import { Box, Container, useMediaQuery } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Box, CircularProgress, Container, useMediaQuery } from '@material-ui/core';
 import { MenuBook as BookIcon } from '@material-ui/icons';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
@@ -11,18 +9,14 @@ import { useTheme } from '@contexts/ThemeProvider';
 
 import api from '@config/api';
 import Book from '@datatypes/Book';
+import { useRouter } from 'next/router';
 
-interface PathsProps extends ParsedUrlQuery {
-   bookId: string;
-}
+interface EditorProps {}
 
-interface EditorProps {
-   book: Book;
-}
-
-const Editor = ({ book }: EditorProps) => {
+const Editor = ({}: EditorProps) => {
    const { muiTheme } = useTheme();
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
+   const [book, setBook] = useState<Book | null>(null);
    const [isOpen, setIsOpen] = useState(false);
 
    const useStyles = makeStyles((theme: Theme) =>
@@ -69,10 +63,39 @@ const Editor = ({ book }: EditorProps) => {
       }),
    );
 
+   const router = useRouter();
+
+   useEffect(() => {
+      api.post('/books', {
+         type: 'bookInfos',
+         bookId: router.query.bookId,
+      })
+         .then((response) => {
+            setBook(response.data.body);
+            console.log(response.data.body);
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+   }, []);
+
    const classes = useStyles();
 
+   if (!book) {
+      return (
+         <LayoutEditor bookId={undefined} callback={setIsOpen}>
+            <Container maxWidth="md" className={classes.editor}>
+               <Box my={1} className={classes.box} onClick={() => focus()}>
+                  <CircularProgress size={64} />
+               </Box>
+               <WritingMenu />
+            </Container>
+         </LayoutEditor>
+      );
+   }
+
    return (
-      <LayoutEditor bookId={book?.id} callback={setIsOpen}>
+      <LayoutEditor bookId={book.id} callback={setIsOpen}>
          <Container maxWidth="md" className={classes.editor}>
             <Box my={1} className={classes.box} onClick={() => focus()}>
                <BookIcon className={classes.icon} />
@@ -81,40 +104,6 @@ const Editor = ({ book }: EditorProps) => {
          </Container>
       </LayoutEditor>
    );
-};
-
-export const getStaticPaths: GetStaticPaths<PathsProps> = async () => {
-   const response = await api.post('/books', { type: 'booksIds' });
-
-   const paths = {
-      paths: response.data.body.map((bookId: string) => ({
-         params: {
-            bookId,
-         },
-      })),
-      fallback: true,
-   };
-
-   return paths;
-};
-
-type Params = {
-   params: {
-      bookId: string;
-   };
-};
-
-export const getStaticProps = async ({ params }: Params) => {
-   const response = await api.post('/books', {
-      type: 'bookInfos',
-      bookId: params.bookId,
-   });
-
-   return {
-      props: {
-         book: response.data.body,
-      },
-   };
 };
 
 export default Editor;

@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { GetStaticPaths } from 'next';
 import { useRouter } from 'next/router';
-import { ParsedUrlQuery } from 'querystring';
 import { EditorState } from 'draft-js';
 import { Box, Container, CircularProgress, useMediaQuery } from '@material-ui/core';
 import {
@@ -20,13 +18,7 @@ import { useTheme } from '@contexts/ThemeProvider';
 import api from '@config/api';
 import Section from '@datatypes/Section';
 
-interface PathsProps extends ParsedUrlQuery {
-   sectionId: string;
-}
-
-interface EditorProps {
-   section: Section;
-}
+interface EditorProps {}
 
 const AUTOSAVE_DELAY = 1000;
 
@@ -44,12 +36,13 @@ const controls = [
    'editorFullscreen',
 ];
 
-const Editor = ({ section }: EditorProps) => {
+const Editor = ({}: EditorProps) => {
    const router = useRouter();
    const { muiTheme } = useTheme();
    const isMobile = useMediaQuery(muiTheme.breakpoints.down('xs'));
    const [fullSize, setFullSize] = useState(false);
    const [isOpen, setIsOpen] = useState(false);
+   const [section, setSection] = useState<Section | null>(null);
    const [initialValue, setInitialValue] = useState('');
    const [remoteValue, setRemoteValue] = useState<string | undefined>(undefined);
    const [canCloudSave, setCanCloudSave] = useState(false);
@@ -175,19 +168,47 @@ const Editor = ({ section }: EditorProps) => {
       }, AUTOSAVE_DELAY);
 
    useEffect(() => {
-      let cronId: number | undefined = undefined;
-
-      setLoading(true);
-      fetchCloudContent(section?.id).then((remoteContent) => {
-         initialize(remoteContent);
-         cronId = saveCron();
-      });
-
-      return () => {
-         window.clearTimeout(cronId);
-         saveCloud();
-      };
+      api.post('/sections', {
+         type: 'sectionInfos',
+         sectionId: router.query.sectionId,
+      })
+         .then((response) => {
+            setSection(response.data.body);
+            console.log(response.data.body);
+         })
+         .catch((error) => {
+            console.log(error);
+         });
    }, [router.query.sectionId]);
+
+   useEffect(() => {
+      if (section) {
+         let cronId: number | undefined = undefined;
+
+         setLoading(true);
+         fetchCloudContent(section.id).then((remoteContent) => {
+            initialize(remoteContent);
+            cronId = saveCron();
+         });
+
+         return () => {
+            window.clearTimeout(cronId);
+            saveCloud();
+         };
+      }
+   }, [section]);
+
+   if (!section) {
+      return (
+         <LayoutEditor bookId={undefined} callback={setIsOpen}>
+            <Container maxWidth="md" className={classes.editor}>
+               <Box my={1} className={classes.box} onClick={() => focus()}>
+                  <CircularProgress size={64} />
+               </Box>
+            </Container>
+         </LayoutEditor>
+      );
+   }
 
    return (
       <LayoutEditor bookId={section?.bookId} callback={setIsOpen}>
@@ -230,40 +251,6 @@ const Editor = ({ section }: EditorProps) => {
          </Container>
       </LayoutEditor>
    );
-};
-
-export const getStaticPaths: GetStaticPaths<PathsProps> = async () => {
-   const response = await api.post('/sections', { type: 'sectionsIds' });
-
-   const paths = {
-      paths: response.data.body.map((sectionId: string) => ({
-         params: {
-            sectionId,
-         },
-      })),
-      fallback: true,
-   };
-
-   return paths;
-};
-
-type Params = {
-   params: {
-      sectionId: string;
-   };
-};
-
-export const getStaticProps = async ({ params }: Params) => {
-   const response = await api.post('/sections', {
-      type: 'sectionInfos',
-      sectionId: params.sectionId,
-   });
-
-   return {
-      props: {
-         section: response.data.body,
-      },
-   };
 };
 
 export default Editor;
