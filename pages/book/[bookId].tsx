@@ -45,13 +45,6 @@ const Editor = ({}: EditorProps) => {
             fontSize: '192px',
             marginBottom: theme.spacing(2),
          },
-         header: {
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            margin: 0,
-         },
          title: {
             fontWeight: 'bold',
          },
@@ -95,11 +88,9 @@ const Editor = ({}: EditorProps) => {
       <LayoutEditor bookId={book.id} callback={setIsOpen}>
          <Container maxWidth="sm" className={classes.container}>
             <Box my={1} className={classes.box} onClick={() => focus()}>
-               <Box className={classes.header}>
-                  <Typography variant="h5" className={classes.title}>
-                     {book.title}
-                  </Typography>
-               </Box>
+               <Typography variant="h5" className={classes.title}>
+                  {book.title}
+               </Typography>
                <BookIcon className={classes.icon} />
                {book.description ? (
                   <Typography variant="body2">{book.description}</Typography>

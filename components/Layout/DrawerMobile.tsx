@@ -7,6 +7,9 @@ import { User } from 'gotrue-js';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
+      drawer: {
+         maxWidth: 240,
+      },
       listitem: {
          marginRight: theme.spacing(1),
       },
@@ -29,7 +32,7 @@ const DrawerMobile = ({ open, user, onClose, children }: DrawerMobileProps) => {
    const classes = useStyles();
 
    return (
-      <Drawer anchor="left" open={open} onClose={() => onClose()}>
+      <Drawer classes={{ paper: classes.drawer }} anchor="left" open={open} onClose={() => onClose()}>
          <List>
             {elements.map(
                (item, index) =>

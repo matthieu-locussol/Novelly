@@ -38,8 +38,8 @@ const DeleteForm = () => {
          </Typography>
          <Typography variant="body1">Delete all of your content and associated data.</Typography>
          <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
-            <Button type="submit" color="secondary" variant="contained" className={classes.button}>
-               Delete my account
+            <Button disabled type="submit" color="secondary" variant="contained" className={classes.button}>
+               Delete my account (available soon)
             </Button>
          </form>
       </Container>

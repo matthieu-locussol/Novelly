@@ -19,6 +19,7 @@ import {
    MenuRounded as MenuIcon,
    ExitToAppRounded as LoginIcon,
    SettingsRounded as BookIcon,
+   AddRounded as AddIcon,
 } from '@material-ui/icons';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -26,6 +27,7 @@ import DrawerMobile from '@components/Layout/DrawerMobile';
 import BugReport from '@components/BugReport/BugReport';
 import LangPicker from '@components/LangPicker';
 import ThemePicker from '@components/ThemePicker';
+import CreateSection from '@components/Editor/CreateSection';
 import { useUser } from '@contexts/UserProvider';
 import Section from '@datatypes/Section';
 
@@ -77,16 +79,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface HeaderMobileProps {
+   bookId?: string;
    sections?: Section[];
 }
 
-const HeaderMobile = ({ sections }: HeaderMobileProps) => {
+const HeaderMobile = ({ bookId, sections }: HeaderMobileProps) => {
    const router = useRouter();
    const classes = useStyles();
    const { user, setUser } = useUser();
    const [open, setOpen] = useState(false);
    const [loading, setLoading] = useState(false);
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+   const [openCreate, setOpenCreate] = useState(false);
 
    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
@@ -153,7 +157,7 @@ const HeaderMobile = ({ sections }: HeaderMobileProps) => {
             </Toolbar>
          </AppBar>
          <DrawerMobile open={open} user={user} onClose={() => setOpen(false)}>
-            {sections && (
+            {sections && sections.length > 0 ? (
                <List>
                   <Divider className={classes.dividerBook} />
                   <Link href="/book/[bookId]" as={`/book/${sections[0].bookId}`}>
@@ -164,6 +168,13 @@ const HeaderMobile = ({ sections }: HeaderMobileProps) => {
                         <ListItemText primary="Book settings" />
                      </ListItem>
                   </Link>
+                  <Divider className={classes.dividerSection} />
+                  <ListItem button className={classes.listitem} onClick={() => setOpenCreate(true)}>
+                     <ListItemIcon>
+                        <AddIcon />
+                     </ListItemIcon>
+                     <ListItemText primary="Create a section" />
+                  </ListItem>
                   <Divider className={classes.dividerSection} />
                   {sections.map((section, index) => {
                      const link = `/editor/${section.id}`;
@@ -186,6 +197,19 @@ const HeaderMobile = ({ sections }: HeaderMobileProps) => {
                      );
                   })}
                </List>
+            ) : (
+               <>
+                  <Divider className={classes.dividerBook} />
+                  <ListItem button className={classes.listitem} onClick={() => setOpenCreate(true)}>
+                     <ListItemIcon>
+                        <AddIcon />
+                     </ListItemIcon>
+                     <ListItemText primary="Create a section" />
+                  </ListItem>
+               </>
+            )}
+            {bookId && (
+               <CreateSection bookId={bookId} open={openCreate} onClose={() => setOpenCreate(false)} />
             )}
          </DrawerMobile>
       </div>

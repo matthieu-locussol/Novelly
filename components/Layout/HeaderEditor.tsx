@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -96,8 +96,8 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
    const [open, setOpen] = useState(false);
    const [loading, setLoading] = useState(false);
    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
    const isBookPage = router.asPath.startsWith('/book/');
+   const [bookId, setBookId] = useState<string | undefined>(isBookPage ? router.asPath.substr(6) : undefined);
 
    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
@@ -125,6 +125,12 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
          callback(newValue);
       }
    };
+
+   useEffect(() => {
+      if (sections && sections.length > 0) {
+         setBookId(sections[0].bookId);
+      }
+   }, [sections]);
 
    return (
       <>
@@ -181,7 +187,7 @@ const HeaderEditor = ({ sections, callback }: HeaderEditorProps) => {
                <MenuItem onClick={logout}>Logout</MenuItem>
             </Menu>
          </Drawer>
-         <DrawerEditor open={open} onClose={() => setOpen(false)}>
+         <DrawerEditor bookId={bookId || ''} open={open} onClose={() => setOpen(false)}>
             {sections && sections.length > 0 && (
                <List>
                   {!isBookPage && (

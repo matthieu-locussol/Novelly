@@ -44,11 +44,8 @@ const LayoutEditor = ({ bookId, children, callback }: LayoutEditorProps) => {
 
    return (
       <>
-         {desktop ? (
-            <HeaderEditor sections={sections} callback={callback} />
-         ) : (
-            <HeaderMobile sections={sections} />
-         )}
+         {desktop && <HeaderEditor sections={sections} callback={callback} />}
+         {!desktop && bookId && <HeaderMobile bookId={bookId} sections={sections} />}
          <div className={desktop ? classes.desktop : ''}>{children}</div>
       </>
    );
