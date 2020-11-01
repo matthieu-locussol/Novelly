@@ -1,11 +1,12 @@
 import React from 'react';
+import md5 from 'md5';
 import { Avatar, Box, Card, CardContent, CardHeader, Container, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
 import Layout from '@components/Layout/Layout';
 import SettingsForm from '@components/Account/SettingsForm';
 import PasswordForm from '@components/Account/PasswordForm';
 import DeleteForm from '@components/Account/DeleteForm';
+import { useUser } from '@contexts/UserProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
    createStyles({
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Settings = () => {
    const classes = useStyles();
+   const { user } = useUser();
 
    return (
       <Layout>
@@ -51,12 +53,12 @@ const Settings = () => {
                      <Avatar
                         aria-label="user-avatar"
                         className={classes.avatar}
-                        src="https://vignette.wikia.nocookie.net/violet-evergarden/images/a/ae/Violet_Evergarden.png">
+                        src={`https://gravatar.com/avatar/${md5(user?.email || '')}`}>
                         ML
                      </Avatar>
                   }
                   className={classes.header}
-                  title={<Typography variant="h6">Jeckhys</Typography>}
+                  title={<Typography variant="h6">{user?.user_metadata.pseudonym}</Typography>}
                   disableTypography
                />
                <CardContent>
