@@ -174,7 +174,6 @@ const Editor = ({}: EditorProps) => {
       })
          .then((response) => {
             setSection(response.data.body);
-            console.log(response.data.body);
          })
          .catch((error) => {
             console.log(error);
