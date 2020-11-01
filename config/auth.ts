@@ -7,7 +7,7 @@ import constants from '@config/constants';
 import { User } from 'gotrue-js';
 
 const gotrueApi = new GoTrue({
-   APIUrl: 'https://novelly-staging.netlify.app/.netlify/identity',
+   APIUrl: 'https://novelly.netlify.app/.netlify/identity',
    audience: '',
    setCookie: true,
 });
