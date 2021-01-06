@@ -8,7 +8,7 @@
       "@material-ui/lab": "^4.0.0-alpha.56",
       "@types/md5": "^2.2.1",
       "@types/node-mailjet": "^3.3.4",
-      "axios": "^0.20.0",
+      "axios": "^0.21.1",
       "clsx": "latest",
       "dayjs": "^1.9.3",
       "gotrue-js": "^0.9.27",
